@@ -7,6 +7,7 @@ import { env } from "./config/env.js";
 import { errorMiddleware } from "./middlewares/errorMiddleware.js";
 import { notFoundMiddleware } from "./middlewares/notFoundMiddleware.js";
 import authRoutes from "./routes/authRoutes.js";
+import dashboardRoutes from "./routes/dashboardRoutes.js";
 import healthRoutes from "./routes/healthRoutes.js";
 import transactionRoutes from "./routes/transactionRoutes.js";
 
@@ -28,6 +29,7 @@ if (env.nodeEnv === "development") {
 app.use("/api/health", healthRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/transactions", transactionRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
