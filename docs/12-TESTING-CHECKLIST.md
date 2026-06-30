@@ -2,55 +2,55 @@
 
 ## Auth Testing
 
-- [ ] User bisa register dengan nama, email, password.
-- [ ] User tidak bisa register dengan email yang sudah dipakai.
-- [ ] Password disimpan sebagai hash.
-- [ ] User bisa login dengan email dan password benar.
-- [ ] User tidak bisa login dengan password salah.
-- [ ] Protected route menolak request tanpa token.
-- [ ] Protected route menerima request dengan token valid.
-- [ ] GET /auth/me mengembalikan user login.
+- [x] User bisa register dengan nama, email, password.
+- [x] User tidak bisa register dengan email yang sudah dipakai.
+- [x] Password disimpan sebagai hash.
+- [x] User bisa login dengan email dan password benar.
+- [x] User tidak bisa login dengan password salah.
+- [x] Protected route menolak request tanpa token.
+- [x] Protected route menerima request dengan token valid.
+- [x] GET /auth/me mengembalikan user login.
 
 ## Transaction Testing
 
-- [ ] User bisa tambah transaksi pemasukan.
-- [ ] User bisa tambah transaksi pengeluaran.
-- [ ] User tidak bisa tambah transaksi tanpa tanggal.
-- [ ] User tidak bisa tambah transaksi tanpa tipe.
-- [ ] User tidak bisa tambah transaksi tanpa kategori.
-- [ ] User tidak bisa tambah transaksi dengan amount 0.
-- [ ] User bisa melihat daftar transaksi miliknya.
-- [ ] User bisa edit transaksi miliknya.
-- [ ] User bisa hapus transaksi miliknya.
-- [ ] User tidak bisa akses transaksi user lain.
-- [ ] Filter type berjalan.
-- [ ] Filter kategori berjalan.
-- [ ] Filter bulan/tahun berjalan.
-- [ ] Search keterangan berjalan.
+- [x] User bisa tambah transaksi pemasukan.
+- [x] User bisa tambah transaksi pengeluaran.
+- [x] User tidak bisa tambah transaksi tanpa tanggal.
+- [x] User tidak bisa tambah transaksi tanpa tipe.
+- [x] User tidak bisa tambah transaksi tanpa kategori.
+- [x] User tidak bisa tambah transaksi dengan amount 0.
+- [x] User bisa melihat daftar transaksi miliknya.
+- [x] User bisa edit transaksi miliknya.
+- [x] User bisa hapus transaksi miliknya.
+- [x] User tidak bisa akses transaksi user lain.
+- [x] Filter type berjalan.
+- [x] Filter kategori berjalan.
+- [x] Filter bulan/tahun berjalan.
+- [x] Search keterangan berjalan.
 
 ## Dashboard Testing
 
-- [ ] Total pemasukan bulan ini benar.
-- [ ] Total pengeluaran bulan ini benar.
-- [ ] Sisa uang benar.
-- [ ] Jumlah transaksi benar.
-- [ ] Grafik harian menampilkan data bulan berjalan.
-- [ ] Grafik bulanan menampilkan 12 bulan.
-- [ ] Grafik kategori hanya menghitung pengeluaran.
-- [ ] Riwayat terbaru menampilkan transaksi terbaru.
-- [ ] Dashboard kosong menampilkan empty state.
+- [x] Total pemasukan bulan ini benar.
+- [x] Total pengeluaran bulan ini benar.
+- [x] Sisa uang benar.
+- [x] Jumlah transaksi benar.
+- [x] Grafik harian menampilkan data bulan berjalan.
+- [x] Grafik bulanan menampilkan 12 bulan.
+- [x] Grafik kategori hanya menghitung pengeluaran.
+- [x] Riwayat terbaru menampilkan transaksi terbaru.
+- [x] Dashboard kosong menampilkan empty state.
 
 ## Report PDF Testing
 
-- [ ] User bisa memilih bulan dan tahun.
-- [ ] Preview laporan muncul.
-- [ ] PDF bisa diunduh.
-- [ ] PDF menampilkan nama user.
-- [ ] PDF menampilkan periode laporan.
-- [ ] PDF menampilkan total pemasukan.
-- [ ] PDF menampilkan total pengeluaran.
-- [ ] PDF menampilkan sisa uang.
-- [ ] PDF menampilkan daftar transaksi.
+- [x] User bisa memilih bulan dan tahun.
+- [x] Preview laporan muncul.
+- [x] PDF bisa diunduh.
+- [x] PDF menampilkan nama user.
+- [x] PDF menampilkan periode laporan.
+- [x] PDF menampilkan total pemasukan.
+- [x] PDF menampilkan total pengeluaran.
+- [x] PDF menampilkan sisa uang.
+- [x] PDF menampilkan daftar transaksi.
 
 ## UI Testing
 
@@ -64,7 +64,7 @@
 - [x] Format tanggal Indonesia benar.
 - [x] Toast success muncul.
 - [x] Toast error muncul.
-- [ ] Loading state muncul saat fetch data.
+- [x] Loading state muncul saat fetch data.
 - [x] Empty state muncul saat data kosong.
 
 ## Manual 30-Day Validation
