@@ -10,6 +10,7 @@ export const useAuthStore = defineStore("auth", {
     token: localStorage.getItem(TOKEN_KEY),
     loading: false,
     error: null,
+    initialized: false,
   }),
   getters: {
     isAuthenticated: (state) => Boolean(state.token),
@@ -49,12 +50,21 @@ export const useAuthStore = defineStore("auth", {
     async fetchMe() {
       if (!this.token) return;
 
-      const response = await authService.me();
-      this.user = response.data.data.user;
+      try {
+        const response = await authService.me();
+        this.user = response.data.data.user;
+      } catch (error) {
+        this.logout();
+        throw error;
+      } finally {
+        this.initialized = true;
+      }
     },
     logout() {
       this.user = null;
       this.token = null;
+      this.error = null;
+      this.initialized = false;
       localStorage.removeItem(TOKEN_KEY);
     },
   },

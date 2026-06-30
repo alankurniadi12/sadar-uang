@@ -81,8 +81,18 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to) => {
+router.beforeEach(async (to) => {
   const authStore = useAuthStore();
+
+  if (authStore.token && !authStore.user && !authStore.initialized) {
+    try {
+      await authStore.fetchMe();
+    } catch (error) {
+      if (to.meta.requiresAuth) {
+        return { name: "login", query: { redirect: to.fullPath } };
+      }
+    }
+  }
 
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     return { name: "login", query: { redirect: to.fullPath } };
