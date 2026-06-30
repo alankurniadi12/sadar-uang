@@ -62,8 +62,8 @@
 - [ ] Transaction form nyaman di mobile.
 - [ ] Format rupiah benar.
 - [ ] Format tanggal Indonesia benar.
-- [ ] Toast success muncul.
-- [ ] Toast error muncul.
+- [x] Toast success muncul.
+- [x] Toast error muncul.
 - [ ] Loading state muncul saat fetch data.
 - [ ] Empty state muncul saat data kosong.
 

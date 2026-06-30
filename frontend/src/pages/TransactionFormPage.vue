@@ -101,6 +101,7 @@ import { computed, onMounted, reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import { useTransactionStore } from "@/stores/transactionStore";
+import { useToastStore } from "@/stores/toastStore";
 import {
   EXPENSE_CATEGORIES,
   INCOME_CATEGORIES,
@@ -110,6 +111,7 @@ import {
 const route = useRoute();
 const router = useRouter();
 const transactionStore = useTransactionStore();
+const toastStore = useToastStore();
 const today = new Date().toISOString().slice(0, 10);
 const title = computed(() => (route.name === "transaction-edit" ? "Edit Transaksi" : "Tambah Transaksi"));
 const submitLabel = computed(() => (isEdit.value ? "Perbarui Transaksi" : "Simpan Transaksi"));
@@ -147,12 +149,15 @@ const submitForm = async () => {
   try {
     if (isEdit.value) {
       await transactionStore.updateTransaction(route.params.id, payload);
+      toastStore.success("Transaksi berhasil diperbarui.");
     } else {
       await transactionStore.createTransaction(payload);
+      toastStore.success("Transaksi berhasil dicatat.");
     }
 
     router.push({ name: "transactions" });
   } catch (error) {
+    toastStore.error(transactionStore.error || "Transaksi gagal disimpan.");
     // Error message is stored in transactionStore for display.
   }
 };
@@ -166,6 +171,7 @@ onMounted(async () => {
     const transaction = await transactionStore.fetchTransaction(route.params.id);
     fillForm(transaction);
   } catch (error) {
+    toastStore.error(transactionStore.error || "Detail transaksi gagal dimuat.");
     // Error message is stored in transactionStore for display.
   }
 });

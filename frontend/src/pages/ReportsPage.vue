@@ -123,9 +123,11 @@
 import { computed, onMounted, reactive, ref } from "vue";
 
 import { reportService } from "@/services/reportService";
+import { useToastStore } from "@/stores/toastStore";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { formatDate } from "@/utils/formatDate";
 
+const toastStore = useToastStore();
 const now = new Date();
 const period = reactive({
   month: String(now.getMonth() + 1),
@@ -198,6 +200,7 @@ const loadReport = async () => {
     report.value = response.data.data;
   } catch (err) {
     error.value = err.response?.data?.message || "Laporan gagal dimuat.";
+    toastStore.error(error.value);
   } finally {
     loading.value = false;
   }
@@ -221,8 +224,10 @@ const downloadPdf = async () => {
     link.click();
     link.remove();
     window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    toastStore.success("PDF laporan berhasil diunduh.");
   } catch (err) {
     error.value = err.response?.data?.message || "Laporan PDF gagal diunduh.";
+    toastStore.error(error.value);
   } finally {
     downloading.value = false;
   }

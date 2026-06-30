@@ -58,8 +58,10 @@ import { reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import { useAuthStore } from "@/stores/authStore";
+import { useToastStore } from "@/stores/toastStore";
 
 const authStore = useAuthStore();
+const toastStore = useToastStore();
 const route = useRoute();
 const router = useRouter();
 
@@ -71,8 +73,10 @@ const form = reactive({
 const submitLogin = async () => {
   try {
     await authStore.login(form);
+    toastStore.success("Login berhasil. Selamat datang kembali.");
     router.push(route.query.redirect || { name: "dashboard" });
   } catch (error) {
+    toastStore.error(authStore.error || "Login gagal. Periksa email dan password.");
     // Error message is already stored in authStore for display.
   }
 };

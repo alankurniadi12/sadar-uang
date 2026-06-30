@@ -72,8 +72,10 @@ import { reactive } from "vue";
 import { useRouter } from "vue-router";
 
 import { useAuthStore } from "@/stores/authStore";
+import { useToastStore } from "@/stores/toastStore";
 
 const authStore = useAuthStore();
+const toastStore = useToastStore();
 const router = useRouter();
 
 const form = reactive({
@@ -85,8 +87,10 @@ const form = reactive({
 const submitRegister = async () => {
   try {
     await authStore.register(form);
+    toastStore.success("Akun berhasil dibuat. Mulai catat transaksi pertamamu.");
     router.push({ name: "dashboard" });
   } catch (error) {
+    toastStore.error(authStore.error || "Registrasi gagal. Coba periksa data akun.");
     // Error message is already stored in authStore for display.
   }
 };

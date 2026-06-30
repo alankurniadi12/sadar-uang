@@ -176,6 +176,7 @@
 import { computed, onMounted, reactive } from "vue";
 
 import { useTransactionStore } from "@/stores/transactionStore";
+import { useToastStore } from "@/stores/toastStore";
 import {
   EXPENSE_CATEGORIES,
   INCOME_CATEGORIES,
@@ -185,6 +186,7 @@ import { formatCurrency } from "@/utils/formatCurrency";
 import { formatDate } from "@/utils/formatDate";
 
 const transactionStore = useTransactionStore();
+const toastStore = useToastStore();
 const now = new Date();
 const months = [
   { value: "1", label: "Jan" },
@@ -226,6 +228,7 @@ const loadTransactions = async () => {
   try {
     await transactionStore.fetchTransactions();
   } catch (error) {
+    toastStore.error(transactionStore.error || "Data transaksi gagal dimuat.");
     // Error message is stored in transactionStore for display.
   }
 };
@@ -233,6 +236,9 @@ const loadTransactions = async () => {
 const applyFilters = async () => {
   filters.page = 1;
   await loadTransactions();
+  if (!transactionStore.error) {
+    toastStore.success("Filter transaksi diterapkan.");
+  }
 };
 
 const resetFilters = async () => {
@@ -243,6 +249,9 @@ const resetFilters = async () => {
   filters.year = String(now.getFullYear());
   filters.page = 1;
   await loadTransactions();
+  if (!transactionStore.error) {
+    toastStore.success("Filter transaksi direset.");
+  }
 };
 
 const changePage = async (page) => {
@@ -258,7 +267,9 @@ const confirmDelete = async (transaction) => {
   try {
     await transactionStore.deleteTransaction(transaction.id);
     await loadTransactions();
+    toastStore.success("Transaksi berhasil dihapus.");
   } catch (error) {
+    toastStore.error(transactionStore.error || "Transaksi gagal dihapus.");
     // Error message is stored in transactionStore for display.
   }
 };

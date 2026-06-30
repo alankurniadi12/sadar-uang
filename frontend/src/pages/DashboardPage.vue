@@ -134,6 +134,7 @@ import { computed, onMounted, reactive } from "vue";
 import { Bar, Doughnut, Line } from "vue-chartjs";
 
 import { useDashboardStore } from "@/stores/dashboardStore";
+import { useToastStore } from "@/stores/toastStore";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { formatDate } from "@/utils/formatDate";
 
@@ -151,6 +152,7 @@ ChartJS.register(
 );
 
 const dashboardStore = useDashboardStore();
+const toastStore = useToastStore();
 const now = new Date();
 const period = reactive({
   month: String(now.getMonth() + 1),
@@ -297,6 +299,7 @@ const loadDashboard = async () => {
       year: period.year,
     });
   } catch (error) {
+    toastStore.error(dashboardStore.error || "Dashboard gagal dimuat.");
     // Error message is stored in dashboardStore for display.
   }
 };
