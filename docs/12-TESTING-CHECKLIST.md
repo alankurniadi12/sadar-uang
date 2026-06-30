@@ -54,18 +54,18 @@
 
 ## UI Testing
 
-- [ ] Landing page tampil baik di desktop.
-- [ ] Landing page tampil baik di mobile.
-- [ ] Login page responsive.
-- [ ] Register page responsive.
-- [ ] Dashboard responsive.
-- [ ] Transaction form nyaman di mobile.
-- [ ] Format rupiah benar.
-- [ ] Format tanggal Indonesia benar.
+- [x] Landing page tampil baik di desktop.
+- [x] Landing page tampil baik di mobile.
+- [x] Login page responsive.
+- [x] Register page responsive.
+- [x] Dashboard responsive.
+- [x] Transaction form nyaman di mobile.
+- [x] Format rupiah benar.
+- [x] Format tanggal Indonesia benar.
 - [x] Toast success muncul.
 - [x] Toast error muncul.
 - [ ] Loading state muncul saat fetch data.
-- [ ] Empty state muncul saat data kosong.
+- [x] Empty state muncul saat data kosong.
 
 ## Manual 30-Day Validation
 

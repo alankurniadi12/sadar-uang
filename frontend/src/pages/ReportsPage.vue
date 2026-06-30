@@ -63,7 +63,7 @@
       </div>
 
       <div class="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
-        <article class="rounded-lg border border-emerald-900/10 bg-white p-5 shadow-sm">
+        <article class="min-w-0 rounded-lg border border-emerald-900/10 bg-white p-5 shadow-sm">
           <h2 class="text-base font-semibold text-ink">Pengeluaran Berdasarkan Kategori</h2>
           <div v-if="report.categorySummary.length === 0" class="mt-4 text-sm text-muted">
             Belum ada pengeluaran pada periode ini.
@@ -81,7 +81,7 @@
           </div>
         </article>
 
-        <article class="rounded-lg border border-emerald-900/10 bg-white p-5 shadow-sm">
+        <article class="min-w-0 rounded-lg border border-emerald-900/10 bg-white p-5 shadow-sm">
           <div class="mb-4">
             <h2 class="text-base font-semibold text-ink">Daftar Transaksi</h2>
             <p class="mt-1 text-sm text-muted">Semua transaksi pada periode laporan.</p>
