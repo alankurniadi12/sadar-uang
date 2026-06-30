@@ -86,7 +86,7 @@ export const useTransactionStore = defineStore("transactions", {
       }
     },
     setFilters(filters) {
-      this.filters = { ...this.filters, ...filters };
+      this.filters = { ...filters };
     },
     resetFilters() {
       this.filters = {};

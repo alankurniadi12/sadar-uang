@@ -47,7 +47,6 @@
           id="transaction-category-filter"
           v-model="filters.category"
           class="mt-2 w-full rounded-md border border-emerald-900/15 px-3 py-2.5 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/10"
-          :disabled="!filters.type"
         >
           <option value="">Semua</option>
           <option v-for="category in categoryOptions" :key="category" :value="category">
@@ -214,7 +213,7 @@ const filters = reactive({
 const categoryOptions = computed(() => {
   if (filters.type === "income") return INCOME_CATEGORIES;
   if (filters.type === "expense") return EXPENSE_CATEGORIES;
-  return [];
+  return [...new Set([...INCOME_CATEGORIES, ...EXPENSE_CATEGORIES])];
 });
 
 const buildParams = () => {
