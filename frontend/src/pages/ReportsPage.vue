@@ -95,14 +95,32 @@
             <table class="min-w-full divide-y divide-emerald-900/10 text-sm">
               <thead class="bg-surface text-left text-xs font-semibold uppercase text-muted">
                 <tr>
-                  <th class="px-4 py-3">Tanggal</th>
+                  <th class="px-4 py-3">
+                    <button
+                      class="inline-flex items-center gap-1 font-semibold uppercase text-muted hover:text-ink"
+                      type="button"
+                      @click="toggleTransactionSort('date')"
+                    >
+                      <span>Tanggal</span>
+                      <span class="text-[10px]" aria-hidden="true">{{ sortArrow("date") }}</span>
+                    </button>
+                  </th>
                   <th class="px-4 py-3">Keterangan</th>
                   <th class="px-4 py-3">Kategori</th>
-                  <th class="px-4 py-3 text-right">Jumlah</th>
+                  <th class="px-4 py-3 text-right">
+                    <button
+                      class="ml-auto inline-flex items-center gap-1 font-semibold uppercase text-muted hover:text-ink"
+                      type="button"
+                      @click="toggleTransactionSort('amount')"
+                    >
+                      <span>Jumlah</span>
+                      <span class="text-[10px]" aria-hidden="true">{{ sortArrow("amount") }}</span>
+                    </button>
+                  </th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-emerald-900/10">
-                <tr v-for="transaction in report.transactions" :key="transaction.id">
+                <tr v-for="transaction in sortedTransactions" :key="transaction.id">
                   <td class="whitespace-nowrap px-4 py-3 text-muted">{{ formatDate(transaction.date) }}</td>
                   <td class="px-4 py-3 font-medium text-ink">{{ transaction.description }}</td>
                   <td class="whitespace-nowrap px-4 py-3 text-muted">{{ transaction.category }}</td>
@@ -151,6 +169,10 @@ const report = ref(null);
 const loading = ref(false);
 const downloading = ref(false);
 const error = ref(null);
+const transactionSort = reactive({
+  key: "date",
+  direction: "desc",
+});
 const summaryCards = computed(() => {
   const summary = report.value?.summary || {
     incomeTotal: 0,
@@ -185,6 +207,18 @@ const summaryCards = computed(() => {
 const maxCategoryTotal = computed(() => {
   return Math.max(...(report.value?.categorySummary || []).map((item) => item.total), 1);
 });
+const sortedTransactions = computed(() => {
+  const transactions = [...(report.value?.transactions || [])];
+  const direction = transactionSort.direction === "asc" ? 1 : -1;
+
+  return transactions.sort((first, second) => {
+    if (transactionSort.key === "amount") {
+      return (first.amount - second.amount) * direction;
+    }
+
+    return (new Date(first.date).getTime() - new Date(second.date).getTime()) * direction;
+  });
+});
 
 const params = () => ({
   month: period.month,
@@ -207,6 +241,21 @@ const loadReport = async () => {
 };
 
 const categoryWidth = (total) => Math.max((total / maxCategoryTotal.value) * 100, 4);
+
+const toggleTransactionSort = (key) => {
+  if (transactionSort.key === key) {
+    transactionSort.direction = transactionSort.direction === "asc" ? "desc" : "asc";
+    return;
+  }
+
+  transactionSort.key = key;
+  transactionSort.direction = "desc";
+};
+
+const sortArrow = (key) => {
+  if (transactionSort.key !== key) return "↕";
+  return transactionSort.direction === "asc" ? "↑" : "↓";
+};
 
 const downloadPdf = async () => {
   downloading.value = true;
