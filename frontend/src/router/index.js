@@ -1,0 +1,98 @@
+import { createRouter, createWebHistory } from "vue-router";
+
+import { useAuthStore } from "@/stores/authStore";
+import AppLayout from "@/layouts/AppLayout.vue";
+import AuthLayout from "@/layouts/AuthLayout.vue";
+import DashboardPage from "@/pages/DashboardPage.vue";
+import LandingPage from "@/pages/LandingPage.vue";
+import LoginPage from "@/pages/LoginPage.vue";
+import NotFoundPage from "@/pages/NotFoundPage.vue";
+import RegisterPage from "@/pages/RegisterPage.vue";
+import ReportsPage from "@/pages/ReportsPage.vue";
+import TransactionFormPage from "@/pages/TransactionFormPage.vue";
+import TransactionsPage from "@/pages/TransactionsPage.vue";
+
+const routes = [
+  {
+    path: "/",
+    name: "landing",
+    component: LandingPage,
+    meta: { public: true },
+  },
+  {
+    path: "/",
+    component: AuthLayout,
+    meta: { public: true },
+    children: [
+      {
+        path: "login",
+        name: "login",
+        component: LoginPage,
+      },
+      {
+        path: "register",
+        name: "register",
+        component: RegisterPage,
+      },
+    ],
+  },
+  {
+    path: "/",
+    component: AppLayout,
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: "dashboard",
+        name: "dashboard",
+        component: DashboardPage,
+      },
+      {
+        path: "transactions",
+        name: "transactions",
+        component: TransactionsPage,
+      },
+      {
+        path: "transactions/new",
+        name: "transaction-new",
+        component: TransactionFormPage,
+      },
+      {
+        path: "transactions/:id/edit",
+        name: "transaction-edit",
+        component: TransactionFormPage,
+      },
+      {
+        path: "reports",
+        name: "reports",
+        component: ReportsPage,
+      },
+    ],
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "not-found",
+    component: NotFoundPage,
+    meta: { public: true },
+  },
+];
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+});
+
+router.beforeEach((to) => {
+  const authStore = useAuthStore();
+
+  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+    return { name: "login", query: { redirect: to.fullPath } };
+  }
+
+  if ((to.name === "login" || to.name === "register") && authStore.isAuthenticated) {
+    return { name: "dashboard" };
+  }
+
+  return true;
+});
+
+export default router;
