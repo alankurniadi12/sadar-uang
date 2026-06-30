@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import { useAuthStore } from "@/stores/authStore";
 import AppLayout from "@/layouts/AppLayout.vue";
 import AuthLayout from "@/layouts/AuthLayout.vue";
+import AdminPage from "@/pages/AdminPage.vue";
 import DashboardPage from "@/pages/DashboardPage.vue";
 import LandingPage from "@/pages/LandingPage.vue";
 import LoginPage from "@/pages/LoginPage.vue";
@@ -66,6 +67,12 @@ const routes = [
         name: "reports",
         component: ReportsPage,
       },
+      {
+        path: "admin",
+        name: "admin",
+        component: AdminPage,
+        meta: { requiresAdmin: true },
+      },
     ],
   },
   {
@@ -96,6 +103,10 @@ router.beforeEach(async (to) => {
 
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     return { name: "login", query: { redirect: to.fullPath } };
+  }
+
+  if (to.meta.requiresAdmin && authStore.user?.role !== "admin") {
+    return { name: "dashboard" };
   }
 
   if ((to.name === "login" || to.name === "register") && authStore.isAuthenticated) {

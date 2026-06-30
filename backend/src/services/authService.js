@@ -7,6 +7,8 @@ const toPublicUser = (user) => ({
   id: user.id,
   name: user.name,
   email: user.email,
+  role: user.role,
+  status: user.status,
 });
 
 export const registerUser = async ({ name, email, password }) => {
@@ -39,6 +41,12 @@ export const loginUser = async ({ email, password }) => {
   if (!user) {
     const error = new Error("Email atau password belum sesuai.");
     error.statusCode = 401;
+    throw error;
+  }
+
+  if (user.status !== "active") {
+    const error = new Error("Akun kamu sedang dinonaktifkan.");
+    error.statusCode = 403;
     throw error;
   }
 

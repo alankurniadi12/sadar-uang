@@ -9,6 +9,7 @@
           <RouterLink class="hover:text-brand" to="/dashboard">Dashboard</RouterLink>
           <RouterLink class="hover:text-brand" to="/transactions">Transaksi</RouterLink>
           <RouterLink class="hover:text-brand" to="/reports">Laporan</RouterLink>
+          <RouterLink v-if="authStore.isAdmin" class="hover:text-brand" to="/admin">Admin</RouterLink>
           <button class="font-medium text-ink hover:text-brand" type="button" @click="logout">
             Keluar
           </button>

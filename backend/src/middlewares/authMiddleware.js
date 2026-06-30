@@ -25,10 +25,19 @@ export const authMiddleware = async (req, res, next) => {
       });
     }
 
+    if (user.status !== "active") {
+      return res.status(403).json({
+        success: false,
+        message: "Akun kamu sedang dinonaktifkan.",
+      });
+    }
+
     req.user = {
       id: user.id,
       name: user.name,
       email: user.email,
+      role: user.role,
+      status: user.status,
     };
 
     next();
@@ -38,4 +47,15 @@ export const authMiddleware = async (req, res, next) => {
       message: "Token tidak valid atau sudah kedaluwarsa.",
     });
   }
+};
+
+export const adminMiddleware = (req, res, next) => {
+  if (req.user?.role !== "admin") {
+    return res.status(403).json({
+      success: false,
+      message: "Akses admin diperlukan.",
+    });
+  }
+
+  return next();
 };
