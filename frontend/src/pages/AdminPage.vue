@@ -202,15 +202,15 @@ const summaryCards = computed(() => {
   const summary = adminStore.summary || {
     totalUsers: 0,
     activeUsers: 0,
+    activeUsersLast30Days: 0,
     newUsersThisMonth: 0,
-    totalTransactions: 0,
   };
 
   return [
     { label: "Total User", value: String(summary.totalUsers) },
-    { label: "User Aktif", value: String(summary.activeUsers) },
+    { label: "Akun Aktif", value: String(summary.activeUsers) },
     { label: "User Baru Bulan Ini", value: String(summary.newUsersThisMonth) },
-    { label: "Total Transaksi", value: String(summary.totalTransactions) },
+    { label: "User Aktif 30 Hari", value: String(summary.activeUsersLast30Days) },
   ];
 });
 

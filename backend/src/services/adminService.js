@@ -92,6 +92,9 @@ export const getAdminSummary = async () => {
   const startOfMonth = new Date();
   startOfMonth.setUTCDate(1);
   startOfMonth.setUTCHours(0, 0, 0, 0);
+  const startOfLast30Days = new Date();
+  startOfLast30Days.setUTCDate(startOfLast30Days.getUTCDate() - 30);
+  startOfLast30Days.setUTCHours(0, 0, 0, 0);
 
   const [
     totalUsers,
@@ -100,7 +103,8 @@ export const getAdminSummary = async () => {
     adminUsers,
     newUsersThisMonth,
     totalTransactions,
-    activeUsersWithTransactions,
+    usersWithTransactions,
+    activeUsersLast30Days,
     transactionTotals,
   ] = await Promise.all([
     User.countDocuments(),
@@ -110,6 +114,7 @@ export const getAdminSummary = async () => {
     User.countDocuments({ createdAt: { $gte: startOfMonth } }),
     Transaction.countDocuments(),
     Transaction.distinct("user"),
+    Transaction.distinct("user", { createdAt: { $gte: startOfLast30Days } }),
     Transaction.aggregate([
       {
         $group: {
@@ -129,7 +134,8 @@ export const getAdminSummary = async () => {
     adminUsers,
     newUsersThisMonth,
     totalTransactions,
-    usersWithTransactions: activeUsersWithTransactions.length,
+    usersWithTransactions: usersWithTransactions.length,
+    activeUsersLast30Days: activeUsersLast30Days.length,
     incomeTotal: totalsByType.get("income") || 0,
     expenseTotal: totalsByType.get("expense") || 0,
   };
