@@ -48,6 +48,32 @@ export const useAuthStore = defineStore("auth", {
         this.loading = false;
       }
     },
+    async forgotPassword(payload) {
+      this.loading = true;
+      this.error = null;
+      try {
+        const response = await authService.forgotPassword(payload);
+        return response.data;
+      } catch (error) {
+        this.error = error.response?.data?.message || "Permintaan reset password gagal.";
+        throw error;
+      } finally {
+        this.loading = false;
+      }
+    },
+    async resetPassword(payload) {
+      this.loading = true;
+      this.error = null;
+      try {
+        const response = await authService.resetPassword(payload);
+        this.setSession(response.data.data);
+      } catch (error) {
+        this.error = error.response?.data?.message || "Password gagal direset.";
+        throw error;
+      } finally {
+        this.loading = false;
+      }
+    },
     async fetchMe() {
       if (!this.token) return;
 

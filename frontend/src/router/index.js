@@ -5,10 +5,12 @@ import AppLayout from "@/layouts/AppLayout.vue";
 import AuthLayout from "@/layouts/AuthLayout.vue";
 import AdminPage from "@/pages/AdminPage.vue";
 import DashboardPage from "@/pages/DashboardPage.vue";
+import ForgotPasswordPage from "@/pages/ForgotPasswordPage.vue";
 import LandingPage from "@/pages/LandingPage.vue";
 import LoginPage from "@/pages/LoginPage.vue";
 import NotFoundPage from "@/pages/NotFoundPage.vue";
 import RegisterPage from "@/pages/RegisterPage.vue";
+import ResetPasswordPage from "@/pages/ResetPasswordPage.vue";
 import ReportsPage from "@/pages/ReportsPage.vue";
 import TransactionFormPage from "@/pages/TransactionFormPage.vue";
 import TransactionsPage from "@/pages/TransactionsPage.vue";
@@ -34,6 +36,16 @@ const routes = [
         path: "register",
         name: "register",
         component: RegisterPage,
+      },
+      {
+        path: "forgot-password",
+        name: "forgot-password",
+        component: ForgotPasswordPage,
+      },
+      {
+        path: "reset-password",
+        name: "reset-password",
+        component: ResetPasswordPage,
       },
     ],
   },
@@ -109,7 +121,10 @@ router.beforeEach(async (to) => {
     return { name: "dashboard" };
   }
 
-  if ((to.name === "login" || to.name === "register") && authStore.isAuthenticated) {
+  if (
+    (to.name === "login" || to.name === "register" || to.name === "forgot-password") &&
+    authStore.isAuthenticated
+  ) {
     return { name: "dashboard" };
   }
 

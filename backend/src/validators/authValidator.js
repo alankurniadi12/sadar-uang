@@ -43,3 +43,31 @@ export const validateLogin = (req, res, next) => {
 
   next();
 };
+
+export const validateForgotPassword = (req, res, next) => {
+  const { email } = req.body;
+
+  if (!email || !isEmail(email)) {
+    return sendValidationError(res, "Email tidak valid.");
+  }
+
+  req.body.email = email.trim().toLowerCase();
+
+  next();
+};
+
+export const validateResetPassword = (req, res, next) => {
+  const { token, password } = req.body;
+
+  if (!token || typeof token !== "string" || token.trim().length < 32) {
+    return sendValidationError(res, "Token reset password tidak valid.");
+  }
+
+  if (!password || password.length < 6) {
+    return sendValidationError(res, "Password minimal 6 karakter.");
+  }
+
+  req.body.token = token.trim();
+
+  next();
+};

@@ -19,6 +19,20 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    emailVerifiedAt: {
+      type: Date,
+      default: null,
+    },
+    passwordResetTokenHash: {
+      type: String,
+      default: null,
+      select: false,
+    },
+    passwordResetExpiresAt: {
+      type: Date,
+      default: null,
+      select: false,
+    },
     role: {
       type: String,
       enum: ["user", "admin"],
@@ -41,6 +55,7 @@ const userSchema = new mongoose.Schema(
 
 userSchema.index({ role: 1 });
 userSchema.index({ status: 1 });
+userSchema.index({ passwordResetTokenHash: 1 });
 
 const User = mongoose.model("User", userSchema);
 

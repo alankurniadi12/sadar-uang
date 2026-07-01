@@ -20,7 +20,12 @@
       </label>
 
       <label class="block">
-        <span class="text-sm font-medium text-ink">Password</span>
+        <span class="flex items-center justify-between gap-3 text-sm font-medium text-ink">
+          Password
+          <RouterLink class="text-xs font-semibold text-brand hover:text-emerald-800" to="/forgot-password">
+            Lupa password?
+          </RouterLink>
+        </span>
         <input
           v-model="form.password"
           class="mt-2 w-full rounded-md border border-emerald-900/15 px-3 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/10"
