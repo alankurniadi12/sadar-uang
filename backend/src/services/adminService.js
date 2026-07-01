@@ -33,24 +33,40 @@ const ensureValidUserId = (userId) => {
 };
 
 const buildUserFilter = (query) => {
-  const filter = {};
+  const conditions = [];
 
   if (query.search) {
-    filter.$or = [
-      { name: { $regex: query.search, $options: "i" } },
-      { email: { $regex: query.search, $options: "i" } },
-    ];
+    conditions.push({
+      $or: [
+        { name: { $regex: query.search, $options: "i" } },
+        { email: { $regex: query.search, $options: "i" } },
+      ],
+    });
   }
 
-  if (query.role) {
-    filter.role = query.role;
+  if (query.role === "user") {
+    conditions.push({
+      $or: [
+        { role: "user" },
+        { role: { $exists: false } },
+      ],
+    });
+  } else if (query.role) {
+    conditions.push({ role: query.role });
   }
 
-  if (query.status) {
-    filter.status = query.status;
+  if (query.status === "active") {
+    conditions.push({
+      $or: [
+        { status: "active" },
+        { status: { $exists: false } },
+      ],
+    });
+  } else if (query.status) {
+    conditions.push({ status: query.status });
   }
 
-  return filter;
+  return conditions.length > 0 ? { $and: conditions } : {};
 };
 
 const getUserMetrics = async (userIds) => {
@@ -108,7 +124,12 @@ export const getAdminSummary = async () => {
     transactionTotals,
   ] = await Promise.all([
     User.countDocuments(),
-    User.countDocuments({ status: "active" }),
+    User.countDocuments({
+      $or: [
+        { status: "active" },
+        { status: { $exists: false } },
+      ],
+    }),
     User.countDocuments({ status: "inactive" }),
     User.countDocuments({ role: "admin" }),
     User.countDocuments({ createdAt: { $gte: startOfMonth } }),
