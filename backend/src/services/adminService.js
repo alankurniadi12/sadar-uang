@@ -13,6 +13,7 @@ const normalizeUser = (user, metrics = {}) => ({
   status: user.status || "active",
   createdAt: user.createdAt,
   updatedAt: user.updatedAt,
+  lastLoginAt: user.lastLoginAt || null,
   transactionCount: metrics.transactionCount || 0,
   incomeTotal: metrics.incomeTotal || 0,
   expenseTotal: metrics.expenseTotal || 0,

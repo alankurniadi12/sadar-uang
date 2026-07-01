@@ -58,6 +58,9 @@ export const loginUser = async ({ email, password }) => {
     throw error;
   }
 
+  user.lastLoginAt = new Date();
+  await user.save();
+
   return {
     user: toPublicUser(user),
     token: generateToken(user.id),

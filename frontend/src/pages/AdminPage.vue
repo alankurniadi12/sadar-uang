@@ -168,6 +168,14 @@
               <p class="text-muted">Transaksi</p>
               <p class="mt-1 font-semibold text-ink">{{ adminStore.selectedUser.transactionCount }}</p>
             </div>
+            <div>
+              <p class="text-muted">Login terakhir</p>
+              <p class="mt-1 font-semibold text-ink">{{ adminStore.selectedUser.lastLoginAt ? formatDateTime(adminStore.selectedUser.lastLoginAt) : "-" }}</p>
+            </div>
+            <div>
+              <p class="text-muted">Aktivitas terakhir</p>
+              <p class="mt-1 font-semibold text-ink">{{ adminStore.selectedUser.lastTransactionAt ? formatDateTime(adminStore.selectedUser.lastTransactionAt) : "-" }}</p>
+            </div>
           </div>
 
           <div class="space-y-3 border-t border-emerald-900/10 pt-4 text-sm">
@@ -197,7 +205,7 @@ import { useAdminStore } from "@/stores/adminStore";
 import { useAuthStore } from "@/stores/authStore";
 import { useToastStore } from "@/stores/toastStore";
 import { formatCurrency } from "@/utils/formatCurrency";
-import { formatDate } from "@/utils/formatDate";
+import { formatDate, formatDateTime } from "@/utils/formatDate";
 
 const adminStore = useAdminStore();
 const authStore = useAuthStore();
