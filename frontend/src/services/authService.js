@@ -7,6 +7,9 @@ export const authService = {
   login(payload) {
     return api.post("/auth/login", payload);
   },
+  loginWithGoogle(payload) {
+    return api.post("/auth/google", payload);
+  },
   forgotPassword(payload) {
     return api.post("/auth/forgot-password", payload);
   },

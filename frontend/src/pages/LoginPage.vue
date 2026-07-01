@@ -6,6 +6,15 @@
       Lanjutkan kebiasaan kecil yang bisa membuat uangmu lebih terarah.
     </p>
 
+    <div v-if="googleClientId" class="mt-6 space-y-4">
+      <GoogleAuthButton text="signin_with" @credential="submitGoogleLogin" />
+      <div class="flex items-center gap-3 text-xs text-muted">
+        <span class="h-px flex-1 bg-emerald-900/10"></span>
+        <span>atau masuk dengan email</span>
+        <span class="h-px flex-1 bg-emerald-900/10"></span>
+      </div>
+    </div>
+
     <form class="mt-6 space-y-4" @submit.prevent="submitLogin">
       <label class="block">
         <span class="text-sm font-medium text-ink">Email</span>
@@ -62,6 +71,7 @@
 import { reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
+import GoogleAuthButton from "@/components/GoogleAuthButton.vue";
 import { useAuthStore } from "@/stores/authStore";
 import { useToastStore } from "@/stores/toastStore";
 
@@ -69,6 +79,7 @@ const authStore = useAuthStore();
 const toastStore = useToastStore();
 const route = useRoute();
 const router = useRouter();
+const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || "";
 
 const form = reactive({
   email: "",
@@ -83,6 +94,16 @@ const submitLogin = async () => {
   } catch (error) {
     toastStore.error(authStore.error || "Login gagal. Periksa email dan password.");
     // Error message is already stored in authStore for display.
+  }
+};
+
+const submitGoogleLogin = async (credential) => {
+  try {
+    await authStore.loginWithGoogle({ credential });
+    toastStore.success("Login Google berhasil. Selamat datang.");
+    router.push(route.query.redirect || { name: "dashboard" });
+  } catch (error) {
+    toastStore.error(authStore.error || "Login Google gagal.");
   }
 };
 </script>

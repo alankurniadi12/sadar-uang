@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
+import { OAuth2Client } from "google-auth-library";
 
 import User from "../models/User.js";
 import { env } from "../config/env.js";
@@ -9,6 +10,7 @@ import { generateToken } from "../utils/generateToken.js";
 const RESET_PASSWORD_EXPIRES_IN_MINUTES = 30;
 const RESET_PASSWORD_SUCCESS_MESSAGE =
   "Jika email terdaftar, link reset password akan dikirim.";
+const googleClient = new OAuth2Client(env.googleClientId);
 
 const toPublicUser = (user) => ({
   id: user.id,
@@ -16,9 +18,55 @@ const toPublicUser = (user) => ({
   email: user.email,
   role: user.role,
   status: user.status,
+  authProviders: user.authProviders || ["password"],
 });
 
 const hashToken = (token) => crypto.createHash("sha256").update(token).digest("hex");
+
+const ensureGoogleConfigured = () => {
+  if (!env.googleClientId) {
+    const error = new Error("Google login belum dikonfigurasi.");
+    error.statusCode = 503;
+    throw error;
+  }
+};
+
+const verifyGoogleCredential = async (credential) => {
+  ensureGoogleConfigured();
+
+  const ticket = await googleClient.verifyIdToken({
+    idToken: credential,
+    audience: env.googleClientId,
+  });
+  const payload = ticket.getPayload();
+
+  if (!payload?.email || !payload?.sub || !payload.email_verified) {
+    const error = new Error("Akun Google belum bisa diverifikasi.");
+    error.statusCode = 401;
+    throw error;
+  }
+
+  return {
+    googleId: payload.sub,
+    email: payload.email.toLowerCase(),
+    name: payload.name || payload.email.split("@")[0],
+    emailVerifiedAt: new Date(),
+  };
+};
+
+const ensureActiveUser = (user) => {
+  if (user.status !== "active") {
+    const error = new Error("Akun kamu sedang dinonaktifkan.");
+    error.statusCode = 403;
+    throw error;
+  }
+};
+
+const addAuthProvider = (user, provider) => {
+  const providers = new Set(user.authProviders || []);
+  providers.add(provider);
+  user.authProviders = [...providers];
+};
 
 export const registerUser = async ({ name, email, password }) => {
   const normalizedEmail = email.toLowerCase();
@@ -35,6 +83,7 @@ export const registerUser = async ({ name, email, password }) => {
     name,
     email: normalizedEmail,
     passwordHash,
+    authProviders: ["password"],
   });
 
   return {
@@ -45,7 +94,7 @@ export const registerUser = async ({ name, email, password }) => {
 
 export const loginUser = async ({ email, password }) => {
   const normalizedEmail = email.toLowerCase();
-  const user = await User.findOne({ email: normalizedEmail });
+  const user = await User.findOne({ email: normalizedEmail }).select("+passwordHash");
 
   if (!user) {
     const error = new Error("Email atau password belum sesuai.");
@@ -53,9 +102,11 @@ export const loginUser = async ({ email, password }) => {
     throw error;
   }
 
-  if (user.status !== "active") {
-    const error = new Error("Akun kamu sedang dinonaktifkan.");
-    error.statusCode = 403;
+  ensureActiveUser(user);
+
+  if (!user.passwordHash) {
+    const error = new Error("Akun ini terdaftar lewat Google. Masuk dengan Google.");
+    error.statusCode = 401;
     throw error;
   }
 
@@ -69,6 +120,50 @@ export const loginUser = async ({ email, password }) => {
 
   user.lastLoginAt = new Date();
   await user.save();
+
+  return {
+    user: toPublicUser(user),
+    token: generateToken(user.id),
+  };
+};
+
+export const loginWithGoogle = async ({ credential }) => {
+  const googleProfile = await verifyGoogleCredential(credential);
+  let user = await User.findOne({ googleId: googleProfile.googleId }).select("+googleId");
+
+  if (!user) {
+    user = await User.findOne({ email: googleProfile.email }).select("+googleId");
+  }
+
+  if (user) {
+    ensureActiveUser(user);
+
+    if (user.googleId && user.googleId !== googleProfile.googleId) {
+      const error = new Error("Email ini sudah terhubung dengan akun Google lain.");
+      error.statusCode = 409;
+      throw error;
+    }
+
+    user.googleId = googleProfile.googleId;
+    user.emailVerifiedAt = user.emailVerifiedAt || googleProfile.emailVerifiedAt;
+    addAuthProvider(user, "google");
+    user.lastLoginAt = new Date();
+    await user.save();
+
+    return {
+      user: toPublicUser(user),
+      token: generateToken(user.id),
+    };
+  }
+
+  user = await User.create({
+    name: googleProfile.name,
+    email: googleProfile.email,
+    googleId: googleProfile.googleId,
+    authProviders: ["google"],
+    emailVerifiedAt: googleProfile.emailVerifiedAt,
+    lastLoginAt: new Date(),
+  });
 
   return {
     user: toPublicUser(user),

@@ -6,6 +6,15 @@
       Buat akun dan mulai catat transaksi pertamamu.
     </p>
 
+    <div v-if="googleClientId" class="mt-6 space-y-4">
+      <GoogleAuthButton text="signup_with" @credential="submitGoogleRegister" />
+      <div class="flex items-center gap-3 text-xs text-muted">
+        <span class="h-px flex-1 bg-emerald-900/10"></span>
+        <span>atau daftar dengan email</span>
+        <span class="h-px flex-1 bg-emerald-900/10"></span>
+      </div>
+    </div>
+
     <form class="mt-6 space-y-4" @submit.prevent="submitRegister">
       <label class="block">
         <span class="text-sm font-medium text-ink">Nama</span>
@@ -71,12 +80,14 @@
 import { reactive } from "vue";
 import { useRouter } from "vue-router";
 
+import GoogleAuthButton from "@/components/GoogleAuthButton.vue";
 import { useAuthStore } from "@/stores/authStore";
 import { useToastStore } from "@/stores/toastStore";
 
 const authStore = useAuthStore();
 const toastStore = useToastStore();
 const router = useRouter();
+const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || "";
 
 const form = reactive({
   name: "",
@@ -92,6 +103,16 @@ const submitRegister = async () => {
   } catch (error) {
     toastStore.error(authStore.error || "Registrasi gagal. Coba periksa data akun.");
     // Error message is already stored in authStore for display.
+  }
+};
+
+const submitGoogleRegister = async (credential) => {
+  try {
+    await authStore.loginWithGoogle({ credential });
+    toastStore.success("Akun Google berhasil digunakan. Mulai catat transaksi pertamamu.");
+    router.push({ name: "dashboard" });
+  } catch (error) {
+    toastStore.error(authStore.error || "Daftar dengan Google gagal.");
   }
 };
 </script>

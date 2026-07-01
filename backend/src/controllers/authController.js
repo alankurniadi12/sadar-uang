@@ -2,6 +2,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { sendSuccess } from "../utils/response.js";
 import {
   getCurrentUser,
+  loginWithGoogle,
   loginUser,
   registerUser,
   requestPasswordReset,
@@ -18,6 +19,12 @@ export const login = asyncHandler(async (req, res) => {
   const data = await loginUser(req.body);
 
   return sendSuccess(res, "Login berhasil.", data);
+});
+
+export const googleLogin = asyncHandler(async (req, res) => {
+  const data = await loginWithGoogle(req.body);
+
+  return sendSuccess(res, "Login Google berhasil.", data);
 });
 
 export const forgotPassword = asyncHandler(async (req, res) => {

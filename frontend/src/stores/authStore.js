@@ -48,6 +48,19 @@ export const useAuthStore = defineStore("auth", {
         this.loading = false;
       }
     },
+    async loginWithGoogle(payload) {
+      this.loading = true;
+      this.error = null;
+      try {
+        const response = await authService.loginWithGoogle(payload);
+        this.setSession(response.data.data);
+      } catch (error) {
+        this.error = error.response?.data?.message || "Login Google gagal.";
+        throw error;
+      } finally {
+        this.loading = false;
+      }
+    },
     async forgotPassword(payload) {
       this.loading = true;
       this.error = null;

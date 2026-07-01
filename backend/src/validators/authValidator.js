@@ -56,6 +56,18 @@ export const validateForgotPassword = (req, res, next) => {
   next();
 };
 
+export const validateGoogleLogin = (req, res, next) => {
+  const { credential } = req.body;
+
+  if (!credential || typeof credential !== "string") {
+    return sendValidationError(res, "Credential Google wajib diisi.");
+  }
+
+  req.body.credential = credential.trim();
+
+  next();
+};
+
 export const validateResetPassword = (req, res, next) => {
   const { token, password } = req.body;
 

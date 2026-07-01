@@ -17,7 +17,17 @@ const userSchema = new mongoose.Schema(
     },
     passwordHash: {
       type: String,
-      required: true,
+      default: null,
+      select: false,
+    },
+    googleId: {
+      type: String,
+      select: false,
+    },
+    authProviders: {
+      type: [String],
+      enum: ["password", "google"],
+      default: ["password"],
     },
     emailVerifiedAt: {
       type: Date,
@@ -56,6 +66,7 @@ const userSchema = new mongoose.Schema(
 userSchema.index({ role: 1 });
 userSchema.index({ status: 1 });
 userSchema.index({ passwordResetTokenHash: 1 });
+userSchema.index({ googleId: 1 }, { unique: true, sparse: true });
 
 const User = mongoose.model("User", userSchema);
 
