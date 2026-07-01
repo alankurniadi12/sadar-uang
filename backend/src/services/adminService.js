@@ -6,11 +6,11 @@ import User from "../models/User.js";
 const USER_STATUSES = ["active", "inactive"];
 
 const normalizeUser = (user, metrics = {}) => ({
-  id: user.id,
+  id: user.id || user._id.toString(),
   name: user.name,
   email: user.email,
-  role: user.role,
-  status: user.status,
+  role: user.role || "user",
+  status: user.status || "active",
   createdAt: user.createdAt,
   updatedAt: user.updatedAt,
   transactionCount: metrics.transactionCount || 0,
@@ -67,6 +67,32 @@ const buildUserFilter = (query) => {
   }
 
   return conditions.length > 0 ? { $and: conditions } : {};
+};
+
+const buildUserSort = (query) => {
+  const direction = query.sortDirection === "asc" ? 1 : -1;
+
+  if (query.sortBy === "name") {
+    return {
+      sortName: direction,
+      createdAt: -1,
+      _id: 1,
+    };
+  }
+
+  if (query.sortBy === "activity") {
+    return {
+      hasActivity: -1,
+      sortActivity: direction,
+      createdAt: -1,
+      _id: 1,
+    };
+  }
+
+  return {
+    createdAt: -1,
+    _id: 1,
+  };
 };
 
 const getUserMetrics = async (userIds) => {
@@ -167,15 +193,84 @@ export const getAdminUsers = async (query) => {
   const limit = Number(query.limit || 20);
   const skip = (page - 1) * limit;
   const filter = buildUserFilter(query);
+  const sort = buildUserSort(query);
 
   const [users, total] = await Promise.all([
-    User.find(filter).select("-passwordHash").sort({ createdAt: -1 }).skip(skip).limit(limit),
+    User.aggregate([
+      { $match: filter },
+      {
+        $lookup: {
+          from: "transactions",
+          localField: "_id",
+          foreignField: "user",
+          as: "transactions",
+        },
+      },
+      {
+        $addFields: {
+          transactionCount: { $size: "$transactions" },
+          incomeTotal: {
+            $sum: {
+              $map: {
+                input: {
+                  $filter: {
+                    input: "$transactions",
+                    as: "transaction",
+                    cond: { $eq: ["$$transaction.type", "income"] },
+                  },
+                },
+                as: "transaction",
+                in: "$$transaction.amount",
+              },
+            },
+          },
+          expenseTotal: {
+            $sum: {
+              $map: {
+                input: {
+                  $filter: {
+                    input: "$transactions",
+                    as: "transaction",
+                    cond: { $eq: ["$$transaction.type", "expense"] },
+                  },
+                },
+                as: "transaction",
+                in: "$$transaction.amount",
+              },
+            },
+          },
+          lastTransactionAt: { $max: "$transactions.createdAt" },
+          hasActivity: {
+            $cond: [
+              { $gt: [{ $size: "$transactions" }, 0] },
+              1,
+              0,
+            ],
+          },
+          sortActivity: {
+            $ifNull: [
+              { $max: "$transactions.createdAt" },
+              new Date(0),
+            ],
+          },
+          sortName: { $toLower: "$name" },
+        },
+      },
+      {
+        $project: {
+          passwordHash: 0,
+          transactions: 0,
+        },
+      },
+      { $sort: sort },
+      { $skip: skip },
+      { $limit: limit },
+    ]),
     User.countDocuments(filter),
   ]);
-  const metricsByUserId = await getUserMetrics(users.map((user) => user.id));
 
   return {
-    items: users.map((user) => normalizeUser(user, metricsByUserId.get(user.id))),
+    items: users.map((user) => normalizeUser(user, user)),
     pagination: {
       page,
       limit,

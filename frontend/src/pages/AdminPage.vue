@@ -69,11 +69,21 @@
           <table class="min-w-full divide-y divide-emerald-900/10 text-left text-sm">
             <thead class="bg-emerald-50/60 text-xs uppercase text-muted">
               <tr>
-                <th class="px-4 py-3 font-semibold">User</th>
+                <th class="px-4 py-3 font-semibold">
+                  <button class="inline-flex items-center gap-1 uppercase hover:text-brand" type="button" @click="toggleSort('name')">
+                    Nama
+                    <span>{{ sortArrow("name") }}</span>
+                  </button>
+                </th>
                 <th class="px-4 py-3 font-semibold">Role</th>
                 <th class="px-4 py-3 font-semibold">Status</th>
                 <th class="px-4 py-3 font-semibold">Transaksi</th>
-                <th class="px-4 py-3 font-semibold">Aktivitas</th>
+                <th class="px-4 py-3 font-semibold">
+                  <button class="inline-flex items-center gap-1 uppercase hover:text-brand" type="button" @click="toggleSort('activity')">
+                    Aktivitas
+                    <span>{{ sortArrow("activity") }}</span>
+                  </button>
+                </th>
                 <th class="px-4 py-3 font-semibold">Aksi</th>
               </tr>
             </thead>
@@ -196,6 +206,8 @@ const filters = reactive({
   search: "",
   status: "",
   role: "",
+  sortBy: "activity",
+  sortDirection: "desc",
 });
 
 const summaryCards = computed(() => {
@@ -224,6 +236,12 @@ const statusClass = (status) => {
 
 const isCurrentUser = (user) => user.id === authStore.user?.id;
 
+const sortArrow = (sortBy) => {
+  if (filters.sortBy !== sortBy) return "↕";
+
+  return filters.sortDirection === "asc" ? "↑" : "↓";
+};
+
 const loadAdminData = async () => {
   try {
     await Promise.all([
@@ -240,6 +258,21 @@ const applyFilters = async () => {
     await adminStore.fetchUsers({ ...filters, page: 1 });
   } catch (error) {
     toastStore.error(adminStore.error || "Filter user gagal diterapkan.");
+  }
+};
+
+const toggleSort = async (sortBy) => {
+  if (filters.sortBy === sortBy) {
+    filters.sortDirection = filters.sortDirection === "asc" ? "desc" : "asc";
+  } else {
+    filters.sortBy = sortBy;
+    filters.sortDirection = sortBy === "name" ? "asc" : "desc";
+  }
+
+  try {
+    await adminStore.fetchUsers({ ...filters, page: 1 });
+  } catch (error) {
+    toastStore.error(adminStore.error || "Urutan user gagal diterapkan.");
   }
 };
 

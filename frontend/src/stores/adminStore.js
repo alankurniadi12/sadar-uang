@@ -17,6 +17,8 @@ export const useAdminStore = defineStore("admin", {
       search: "",
       status: "",
       role: "",
+      sortBy: "activity",
+      sortDirection: "desc",
       page: 1,
       limit: 20,
     },
