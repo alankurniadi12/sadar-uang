@@ -1,6 +1,6 @@
 # 07 - Backend Specification
 
-Backend menggunakan Node.js, Express.js, MongoDB, Mongoose, JWT, dan bcrypt.
+Backend menggunakan Node.js, Express.js, MongoDB, Mongoose, JWT, bcrypt, Google Auth Library, Nodemailer, dan PDFKit.
 
 ## Tujuan Backend
 
@@ -18,11 +18,13 @@ backend/
 │   │   ├── authController.js
 │   │   ├── transactionController.js
 │   │   ├── dashboardController.js
-│   │   └── reportController.js
+│   │   ├── reportController.js
+│   │   ├── adminController.js
+│   │   └── healthController.js
 │   ├── middlewares/
 │   │   ├── authMiddleware.js
 │   │   ├── errorMiddleware.js
-│   │   └── validateMiddleware.js
+│   │   └── notFoundMiddleware.js
 │   ├── models/
 │   │   ├── User.js
 │   │   └── Transaction.js
@@ -30,21 +32,29 @@ backend/
 │   │   ├── authRoutes.js
 │   │   ├── transactionRoutes.js
 │   │   ├── dashboardRoutes.js
-│   │   └── reportRoutes.js
+│   │   ├── reportRoutes.js
+│   │   ├── adminRoutes.js
+│   │   └── healthRoutes.js
 │   ├── services/
 │   │   ├── authService.js
 │   │   ├── transactionService.js
 │   │   ├── dashboardService.js
-│   │   └── reportService.js
+│   │   ├── reportService.js
+│   │   ├── adminService.js
+│   │   └── emailService.js
 │   ├── utils/
 │   │   ├── asyncHandler.js
 │   │   ├── generateToken.js
 │   │   ├── response.js
 │   │   ├── dateRange.js
-│   │   └── pdfGenerator.js
+│   │   ├── pdfGenerator.js
+│   │   ├── formatRupiah.js
+│   │   └── formatDate.js
 │   ├── validators/
 │   │   ├── authValidator.js
-│   │   └── transactionValidator.js
+│   │   ├── transactionValidator.js
+│   │   ├── dashboardValidator.js
+│   │   └── adminValidator.js
 │   ├── app.js
 │   └── server.js
 ├── .env.example
@@ -69,6 +79,13 @@ backend/
 - Password disimpan sebagai hash.
 - Login mengembalikan JWT.
 - JWT menyimpan user id.
+- Google login menerima credential dari frontend dan membuat/menautkan user.
+- Forgot password membuat token reset dan mengirim link melalui email service.
+- Reset password menerima token dan password baru.
+- Update profil hanya mengubah nama user.
+- Update password mendukung akun password dan akun Google yang ingin membuat password.
+- User memiliki role `user` atau `admin`.
+- User memiliki status `active` atau `inactive`.
 
 ## Transaction Rules
 
@@ -115,8 +132,9 @@ Untuk bulan/tahun tertentu:
 
 Laporan PDF bulanan berisi:
 
-- Nama aplikasi
+- Header brand memakai icon dan teks Sadar Uang
 - Nama pengguna
+- Email pengguna
 - Periode laporan
 - Total pemasukan
 - Total pengeluaran
@@ -124,6 +142,21 @@ Laporan PDF bulanan berisi:
 - Pengeluaran berdasarkan kategori
 - Daftar transaksi
 - Tanggal cetak laporan
+
+Catatan deploy:
+
+- Generator PDF membaca asset brand dari `frontend/public/brand`.
+- Jika backend dan frontend dideploy terpisah, copy asset brand ke lokasi yang tetap bisa dibaca backend atau sesuaikan path generator.
+
+## Admin Rules
+
+- Semua route admin wajib auth JWT dan role admin.
+- Admin dapat melihat summary user.
+- Admin dapat mencari user berdasarkan nama/email.
+- Admin dapat filter role/status, sort nama/aktivitas, dan pagination.
+- Admin dapat melihat detail user beserta metrik transaksi.
+- Admin dapat mengubah status user active/inactive.
+- Admin tidak boleh menonaktifkan akunnya sendiri dari UI.
 
 ## Error Handling
 
@@ -151,6 +184,7 @@ Gunakan format sukses konsisten:
 ## Security Notes
 
 - Jangan kirim passwordHash ke frontend.
+- Jangan kirim googleId, passwordResetTokenHash, atau passwordResetExpiresAt ke frontend.
 - Gunakan JWT secret dari environment variable.
 - Batasi CORS sesuai kebutuhan deployment.
 - Validasi semua input.

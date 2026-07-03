@@ -10,7 +10,15 @@ Database menggunakan MongoDB dengan Mongoose.
 |---|---|---:|---|
 | name | String | Yes | Nama pengguna |
 | email | String | Yes | Email unik pengguna |
-| passwordHash | String | Yes | Password yang sudah di-hash |
+| passwordHash | String/null | No | Password yang sudah di-hash, null untuk akun Google-only |
+| googleId | String | No | ID akun Google, unik jika ada |
+| authProviders | String[] | Yes | Provider login: password dan/atau google |
+| emailVerifiedAt | Date/null | No | Tanggal email terverifikasi |
+| passwordResetTokenHash | String/null | No | Hash token reset password |
+| passwordResetExpiresAt | Date/null | No | Masa berlaku token reset password |
+| role | String | Yes | user atau admin |
+| status | String | Yes | active atau inactive |
+| lastLoginAt | Date/null | No | Waktu login terakhir |
 | createdAt | Date | Auto | Tanggal dibuat |
 | updatedAt | Date | Auto | Tanggal diperbarui |
 
@@ -19,6 +27,9 @@ Database menggunakan MongoDB dengan Mongoose.
 - Email harus unik.
 - Password tidak boleh disimpan dalam bentuk plain text.
 - Gunakan bcrypt untuk hashing password.
+- `passwordHash`, `googleId`, dan token reset password tidak dikirim ke frontend.
+- User inactive tidak boleh login.
+- Admin dibedakan lewat field `role`.
 
 ### Example
 
@@ -27,6 +38,10 @@ Database menggunakan MongoDB dengan Mongoose.
   "name": "Alan",
   "email": "alan@example.com",
   "passwordHash": "$2b$10$examplehash",
+  "authProviders": ["password"],
+  "role": "user",
+  "status": "active",
+  "lastLoginAt": "2026-06-30T10:00:00.000Z",
   "createdAt": "2026-06-30T10:00:00.000Z",
   "updatedAt": "2026-06-30T10:00:00.000Z"
 }
@@ -129,4 +144,8 @@ transactions.createIndex({ user: 1, date: -1 });
 transactions.createIndex({ user: 1, type: 1 });
 transactions.createIndex({ user: 1, category: 1 });
 users.createIndex({ email: 1 }, { unique: true });
+users.createIndex({ googleId: 1 }, { unique: true, sparse: true });
+users.createIndex({ role: 1 });
+users.createIndex({ status: 1 });
+users.createIndex({ passwordResetTokenHash: 1 });
 ```

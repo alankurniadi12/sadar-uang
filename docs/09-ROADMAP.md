@@ -44,6 +44,10 @@ Task:
 
 - Register endpoint.
 - Login endpoint.
+- Google login endpoint.
+- Forgot password endpoint.
+- Reset password endpoint.
+- Update profile/password endpoint.
 - JWT generation.
 - Auth middleware.
 - GET /auth/me.
@@ -52,6 +56,8 @@ Task:
 Output:
 
 - User bisa register/login.
+- User bisa login dengan Google jika client id tersedia.
+- User bisa reset password.
 - Route protected berjalan.
 
 ## Phase 3 - Transaction API
@@ -100,10 +106,12 @@ Task:
 - Format rupiah.
 - Format tanggal Indonesia.
 - Download PDF response.
+- Header PDF memakai asset brand.
 
 Output:
 
 - Laporan PDF bulanan bisa diunduh.
+- Laporan PDF tampil lebih profesional dengan brand Sadar Uang.
 
 ## Phase 6 - Frontend Foundation
 
@@ -130,6 +138,10 @@ Task:
 
 - Register page.
 - Login page.
+- Google auth button.
+- Forgot password page.
+- Reset password page.
+- Password visibility toggle.
 - Auth store.
 - Save token.
 - Protected route.
@@ -138,6 +150,8 @@ Task:
 Output:
 
 - User bisa login dari frontend.
+- User bisa reset password dari frontend.
+- User bisa melihat/sembunyikan input password.
 
 ## Phase 8 - Frontend Transactions
 
@@ -196,6 +210,8 @@ Tujuan: Aplikasi nyaman digunakan.
 Task:
 
 - Responsive mobile.
+- Header mobile dengan tombol menu.
+- Responsiveness filter, pagination, dan tombol utama.
 - Format rupiah.
 - Format tanggal Indonesia.
 - Toast notification.
@@ -207,6 +223,25 @@ Task:
 Output:
 
 - MVP siap dipakai harian.
+
+## Phase 11.5 - Admin & Account Settings
+
+Tujuan: Menyediakan kontrol akun dan pengawasan penggunaan.
+
+Task:
+
+- Profile settings page.
+- Update nama profil.
+- Update/buat password.
+- Admin summary.
+- Admin user list dengan search, filter, sort, pagination.
+- Admin user detail.
+- Toggle status user active/inactive.
+
+Output:
+
+- User dapat mengelola profil dan password.
+- Admin dapat memantau user dan status akun.
 
 ## Phase 12 - Personal Use Validation
 

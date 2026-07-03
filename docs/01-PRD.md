@@ -43,7 +43,11 @@ Banyak orang merasa uangnya cepat habis, tetapi tidak tahu uang tersebut habis u
 
 - Register
 - Login
+- Login Google
 - Logout
+- Lupa password
+- Reset password
+- Update profil dan password
 - Proteksi halaman dashboard
 
 ### 2. Transaction Management
@@ -71,6 +75,20 @@ Banyak orang merasa uangnya cepat habis, tetapi tidak tahu uang tersebut habis u
 - Pilih periode bulan
 - Generate laporan bulanan
 - Download laporan PDF
+- Header PDF memakai asset brand aplikasi
+
+### 5. Admin Panel
+
+- Ringkasan user
+- Daftar user dengan search, filter, sort, dan pagination
+- Detail user
+- Aktivasi/nonaktivasi user
+
+### 6. UX & Responsive Polish
+
+- Header mobile memakai tombol menu agar navigasi tetap rapi
+- Form password memiliki tombol lihat/sembunyikan untuk mengurangi salah ketik
+- Tombol dan filter penting dibuat nyaman dipakai di layar mobile
 
 ## Non-Goals Versi Pertama
 
@@ -85,6 +103,7 @@ Fitur berikut tidak masuk MVP:
 - Subscription/payment
 - Multi-user keluarga
 - Integrasi bank/e-wallet
+- Role premium/free
 
 ## Success Metrics MVP
 

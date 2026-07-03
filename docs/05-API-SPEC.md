@@ -63,7 +63,9 @@ Register user baru.
     "user": {
       "id": "userId",
       "name": "Alan",
-      "email": "alan@example.com"
+      "email": "alan@example.com",
+      "role": "user",
+      "status": "active"
     },
     "token": "jwtToken"
   }
@@ -93,18 +95,108 @@ Login user.
     "user": {
       "id": "userId",
       "name": "Alan",
-      "email": "alan@example.com"
+      "email": "alan@example.com",
+      "role": "user",
+      "status": "active"
     },
     "token": "jwtToken"
   }
 }
 ```
 
+## POST /auth/google
+
+Login atau register memakai Google credential.
+
+### Body
+
+```json
+{
+  "credential": "googleCredential"
+}
+```
+
+### Response
+
+Sama seperti login biasa: data user dan JWT.
+
+## POST /auth/forgot-password
+
+Meminta link reset password.
+
+### Body
+
+```json
+{
+  "email": "alan@example.com"
+}
+```
+
+### Response
+
+```json
+{
+  "success": true,
+  "message": "Jika email terdaftar, link reset password akan dikirim.",
+  "data": null
+}
+```
+
+Pada development, backend dapat mengembalikan `resetUrl` untuk memudahkan testing.
+
+## POST /auth/reset-password
+
+Reset password memakai token.
+
+### Body
+
+```json
+{
+  "token": "resetToken",
+  "password": "passwordBaru123"
+}
+```
+
+### Response
+
+Sama seperti login biasa: data user dan JWT.
+
 ## GET /auth/me
 
 Mengambil data user login.
 
 Protected: Yes
+
+## PATCH /auth/me
+
+Update nama user login.
+
+Protected: Yes
+
+### Body
+
+```json
+{
+  "name": "Alan Kurniadi"
+}
+```
+
+## PATCH /auth/me/password
+
+Update atau buat password user login.
+
+Protected: Yes
+
+### Body
+
+```json
+{
+  "currentPassword": "passwordLama",
+  "newPassword": "passwordBaru123"
+}
+```
+
+Untuk akun Google yang belum punya password, `currentPassword` boleh dikosongkan.
 
 ---
 
@@ -275,6 +367,27 @@ Response data:
 ]
 ```
 
+## GET /dashboard/recent
+
+Data transaksi terbaru user login.
+
+Protected: Yes
+
+Response data:
+
+```json
+[
+  {
+    "id": "transactionId",
+    "date": "2026-06-30T00:00:00.000Z",
+    "type": "expense",
+    "description": "Makan siang",
+    "category": "Makan/Minum",
+    "amount": 25000
+  }
+]
+```
+
 ---
 
 # Report Endpoints
@@ -307,4 +420,76 @@ Response:
 
 ```text
 application/pdf
+```
+
+Catatan:
+
+- PDF memakai header brand dengan icon dan teks Sadar Uang.
+- Asset brand harus tersedia di environment backend saat generate PDF.
+
+---
+
+# Admin Endpoints
+
+Semua endpoint admin membutuhkan JWT user dengan role `admin`.
+
+## GET /admin/summary
+
+Mengambil ringkasan user dan transaksi.
+
+Protected: Yes, Admin only
+
+Response data:
+
+```json
+{
+  "totalUsers": 10,
+  "activeUsers": 9,
+  "inactiveUsers": 1,
+  "adminUsers": 1,
+  "newUsersThisMonth": 2,
+  "totalTransactions": 120,
+  "usersWithTransactions": 8,
+  "activeUsersLast30Days": 7,
+  "incomeTotal": 25000000,
+  "expenseTotal": 18000000
+}
+```
+
+## GET /admin/users
+
+Mengambil daftar user.
+
+Protected: Yes, Admin only
+
+### Query Params
+
+| Param | Example | Description |
+|---|---|---|
+| search | alan | Search nama atau email |
+| role | user | user atau admin |
+| status | active | active atau inactive |
+| sortBy | activity | name atau activity |
+| sortDirection | desc | asc atau desc |
+| page | 1 | Pagination |
+| limit | 20 | Jumlah data, maksimal 100 |
+
+## GET /admin/users/:id
+
+Mengambil detail user dan metrik transaksinya.
+
+Protected: Yes, Admin only
+
+## PATCH /admin/users/:id/status
+
+Mengubah status user.
+
+Protected: Yes, Admin only
+
+### Body
+
+```json
+{
+  "status": "inactive"
+}
 ```

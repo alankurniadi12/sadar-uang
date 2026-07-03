@@ -12,7 +12,12 @@ Jangan menambahkan fitur besar sebelum fitur inti stabil.
 
 - Register user baru.
 - Login user.
+- Login dengan Google.
 - Logout user.
+- Lupa password.
+- Reset password.
+- Update profil.
+- Update password dari halaman pengaturan.
 - JWT token.
 - Password di-hash menggunakan bcrypt.
 - Middleware protected route.
@@ -59,6 +64,19 @@ Dashboard menampilkan:
 - Generate laporan berdasarkan bulan dan tahun.
 - Download PDF.
 - PDF menampilkan ringkasan dan daftar transaksi.
+- PDF memakai header brand dengan icon dan teks Sadar Uang.
+
+### Admin
+
+- Admin dapat melihat ringkasan user.
+- Admin dapat mencari, filter, sort, dan membuka detail user.
+- Admin dapat mengubah status user aktif/nonaktif.
+
+### UX Polish
+
+- Navigasi header mobile memakai tombol menu.
+- Field password memiliki tombol lihat/sembunyikan.
+- Tombol utama, filter, dan pagination tetap rapi di mobile.
 
 ## Fitur Tidak Masuk MVP
 
@@ -72,7 +90,6 @@ Dashboard menampilkan:
 - Integrasi bank.
 - Integrasi e-wallet.
 - Payment gateway.
-- Admin panel.
 - Role user premium/free.
 
 ## Prioritas Development

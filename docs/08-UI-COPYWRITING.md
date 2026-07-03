@@ -45,7 +45,7 @@ Mulai Catat Sekarang
 
 ### Secondary CTA
 
-Lihat Cara Kerjanya
+Masuk
 
 ## Problem Section
 
@@ -115,9 +115,54 @@ Button:
 
 Masuk
 
+Link forgot password:
+
+Lupa password?
+
 Link register:
 
 Belum punya akun? Daftar dulu.
+
+Password visibility:
+
+- Lihat
+- Sembunyikan
+
+Google auth separator:
+
+atau masuk dengan email
+
+## Forgot Password Page
+
+Headline:
+
+Reset password akunmu.
+
+Subheadline:
+
+Masukkan email akun. Kalau email terdaftar, kami akan mengirim link untuk membuat password baru.
+
+Button:
+
+Kirim Link Reset
+
+Link login:
+
+Ingat password?
+
+## Reset Password Page
+
+Headline:
+
+Buat password baru.
+
+Subheadline:
+
+Gunakan password baru yang mudah kamu ingat, tapi tidak mudah ditebak orang lain.
+
+Button:
+
+Reset Password
 
 ## Dashboard
 
@@ -214,6 +259,44 @@ Success:
 
 Laporan berhasil dibuat.
 
+## Profile Settings Page
+
+Title:
+
+Profil & Pengaturan
+
+Subtitle:
+
+Kelola identitas akun dan keamanan login kamu.
+
+Section titles:
+
+- Data Profil
+- Keamanan
+
+Buttons:
+
+- Simpan Profil
+- Ubah Password
+- Buat Password
+
+## Admin Page
+
+Title:
+
+Admin
+
+Subtitle:
+
+Pantau user dan kesehatan penggunaan aplikasi.
+
+Buttons:
+
+- Refresh
+- Terapkan
+- Aktifkan
+- Nonaktifkan
+
 ## Toast Messages
 
 ### Success
@@ -223,6 +306,10 @@ Laporan berhasil dibuat.
 - Transaksi berhasil dihapus.
 - Login berhasil.
 - Akun berhasil dibuat.
+- Permintaan reset password diproses.
+- Password berhasil direset.
+- Profil berhasil diperbarui.
+- Password berhasil diperbarui.
 - Laporan PDF berhasil diunduh.
 
 ### Error
@@ -233,3 +320,4 @@ Laporan berhasil dibuat.
 - Jumlah harus lebih dari 0.
 - Keterangan wajib diisi.
 - Kategori wajib dipilih.
+- Konfirmasi password belum sama.

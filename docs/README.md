@@ -10,9 +10,11 @@ Membantu pengguna lebih sadar terhadap kondisi keuangan pribadi melalui pencatat
 
 - Digunakan pribadi terlebih dahulu.
 - Tetap menggunakan login dan registrasi.
+- Mendukung login Google, reset password, dan pengaturan profil/password.
 - Web app responsif untuk desktop dan mobile.
 - Belum menggunakan multi-dompet.
-- Export laporan PDF bulanan tersedia.
+- Export laporan PDF bulanan tersedia dengan header brand.
+- Admin panel tersedia untuk memantau user dan status akun.
 - Belum fokus monetisasi, tetapi disiapkan sebagai produk personal branding.
 
 ## Tech Stack Rekomendasi
@@ -23,7 +25,7 @@ Membantu pengguna lebih sadar terhadap kondisi keuangan pribadi melalui pencatat
 - Tailwind CSS
 - Vue Router
 - Pinia
-- Chart.js atau ApexCharts
+- Chart.js
 - Axios
 
 ### Backend
@@ -33,7 +35,18 @@ Membantu pengguna lebih sadar terhadap kondisi keuangan pribadi melalui pencatat
 - Mongoose
 - JWT
 - Bcrypt
-- PDFKit atau Puppeteer
+- Google Auth Library
+- Nodemailer
+- PDFKit
+
+## Brand Assets
+
+Asset brand aplikasi disimpan di:
+
+- `frontend/public/brand/sadar-uang-icon.png`
+- `frontend/public/brand/sadar-uang-text.png`
+
+Asset ini dipakai di UI dan header PDF. Saat deploy production, pastikan asset tetap tersedia untuk generator PDF backend.
 
 ## Daftar Dokumen
 

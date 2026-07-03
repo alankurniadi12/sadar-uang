@@ -18,7 +18,7 @@ Frontend:
 - Vue Router
 - Pinia
 - Axios
-- Chart.js atau ApexCharts
+- Chart.js
 
 Backend:
 
@@ -28,7 +28,9 @@ Backend:
 - Mongoose
 - JWT
 - Bcrypt
-- PDFKit atau Puppeteer
+- Google Auth Library
+- Nodemailer
+- PDFKit
 
 ## Important Rules
 
@@ -47,6 +49,9 @@ Backend:
 13. Form transaksi harus sederhana.
 14. Dashboard tidak boleh terlalu ramai.
 15. Gunakan format Rupiah.
+16. Semua field password harus punya kontrol Lihat/Sembunyikan.
+17. Header mobile harus tetap rapi dengan tombol menu.
+18. Header PDF harus memakai asset brand jika tersedia.
 
 ## Development Order
 
@@ -56,17 +61,19 @@ Kerjakan secara bertahap:
 2. Setup MongoDB dan Mongoose.
 3. Buat model User dan Transaction.
 4. Buat auth register/login/me.
-5. Buat middleware auth JWT.
-6. Buat CRUD transaction.
-7. Buat dashboard endpoints.
-8. Buat report PDF endpoint.
-9. Setup frontend Vue.
-10. Buat auth pages.
-11. Buat dashboard page.
-12. Buat transaction pages.
-13. Buat report page.
-14. Polish responsive UI.
-15. Testing.
+5. Buat Google auth, forgot password, reset password, dan update profile/password.
+6. Buat middleware auth JWT.
+7. Buat CRUD transaction.
+8. Buat dashboard endpoints.
+9. Buat report PDF endpoint.
+10. Setup frontend Vue.
+11. Buat auth pages.
+12. Buat dashboard page.
+13. Buat transaction pages.
+14. Buat report page.
+15. Buat profile settings dan admin page.
+16. Polish responsive UI.
+17. Testing.
 
 ## Response Format for API
 
@@ -95,7 +102,10 @@ Wajib ada:
 
 - Register
 - Login
+- Google login
+- Forgot/reset password
 - Logout
+- Profile settings
 - Protected route
 - Tambah transaksi
 - Lihat transaksi
@@ -108,6 +118,7 @@ Wajib ada:
 - Grafik bulanan
 - Grafik kategori
 - Export PDF laporan bulanan
+- Admin panel untuk monitoring user
 
 Tidak dikerjakan dulu:
 

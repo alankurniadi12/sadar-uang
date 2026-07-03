@@ -7,6 +7,12 @@
 - [x] Password disimpan sebagai hash.
 - [x] User bisa login dengan email dan password benar.
 - [x] User tidak bisa login dengan password salah.
+- [x] User bisa login/daftar dengan Google jika `VITE_GOOGLE_CLIENT_ID` tersedia.
+- [x] User bisa meminta reset password.
+- [x] User bisa reset password dengan token valid.
+- [x] User bisa update nama profil.
+- [x] User bisa update atau membuat password dari halaman pengaturan.
+- [x] Field password bisa toggle Lihat/Sembunyikan.
 - [x] Protected route menolak request tanpa token.
 - [x] Protected route menerima request dengan token valid.
 - [x] GET /auth/me mengembalikan user login.
@@ -51,6 +57,19 @@
 - [x] PDF menampilkan total pengeluaran.
 - [x] PDF menampilkan sisa uang.
 - [x] PDF menampilkan daftar transaksi.
+- [x] PDF menampilkan header brand dengan icon dan teks Sadar Uang.
+- [x] PDF tetap bisa dibuat dengan fallback teks jika asset brand tidak tersedia.
+
+## Admin Testing
+
+- [x] Admin bisa melihat summary user.
+- [x] Admin bisa melihat daftar user.
+- [x] Admin bisa search user berdasarkan nama/email.
+- [x] Admin bisa filter user berdasarkan role/status.
+- [x] Admin bisa sort user berdasarkan nama/aktivitas.
+- [x] Admin bisa melihat detail user.
+- [x] Admin bisa mengubah status user.
+- [x] User non-admin tidak bisa akses route admin.
 
 ## UI Testing
 
@@ -60,6 +79,9 @@
 - [x] Register page responsive.
 - [x] Dashboard responsive.
 - [x] Transaction form nyaman di mobile.
+- [x] Header app mobile memakai tombol menu dan tidak berantakan.
+- [x] Filter dashboard/laporan/transaksi nyaman di mobile.
+- [x] Pagination transaksi/admin rapi di mobile.
 - [x] Format rupiah benar.
 - [x] Format tanggal Indonesia benar.
 - [x] Toast success muncul.
