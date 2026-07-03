@@ -1,3 +1,7 @@
+import { existsSync } from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
 import PDFDocument from "pdfkit";
 
 import { formatDateIndonesia } from "./formatDate.js";
@@ -29,6 +33,13 @@ const CATEGORY_COLORS = [
   "#0F766E",
   "#BE123C",
 ];
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const BRAND_ASSETS = {
+  icon: path.resolve(__dirname, "../../../frontend/public/brand/sadar-uang-icon.png"),
+  text: path.resolve(__dirname, "../../../frontend/public/brand/sadar-uang-text.png"),
+};
 
 const formatPercent = (value) => `${Math.round(value)}%`;
 
@@ -65,36 +76,74 @@ const ensureSpace = (doc, height) => {
   return true;
 };
 
+const drawBrandLockup = (doc, x, y) => {
+  const hasIcon = existsSync(BRAND_ASSETS.icon);
+  const hasText = existsSync(BRAND_ASSETS.text);
+
+  if (hasIcon) {
+    doc.image(BRAND_ASSETS.icon, x, y, { width: 34, height: 28, fit: [34, 28] });
+  }
+
+  if (hasText) {
+    doc.image(BRAND_ASSETS.text, x + 42, y + 2, { width: 128, height: 26, fit: [128, 26] });
+    return;
+  }
+
+  doc
+    .font("Helvetica-Bold")
+    .fontSize(18)
+    .fillColor(COLORS.brand)
+    .text("Sadar Uang", x + (hasIcon ? 42 : 0), y + 4, { lineBreak: false });
+};
+
 const drawHeader = (doc, report) => {
   const x = PAGE.margin;
   const y = 30;
   const width = PAGE.width - PAGE.margin * 2;
 
-  doc.roundedRect(x, y, width, 72, 8).fill(COLORS.ink);
+  doc.roundedRect(x, y, width, 92, 8).fillAndStroke(COLORS.white, COLORS.border);
+  doc.roundedRect(x, y, width, 6, 3).fill(COLORS.brand);
+  doc.roundedRect(x + 16, y + 18, 190, 42, 7).fill(COLORS.faint);
+
+  drawBrandLockup(doc, x + 28, y + 25);
 
   doc
-    .fillColor(COLORS.white)
+    .fillColor(COLORS.ink)
     .font("Helvetica-Bold")
-    .fontSize(20)
-    .text("Sadar Uang", x + 18, y + 15);
+    .fontSize(16)
+    .text("Laporan Bulanan", x + 18, y + 67, { lineBreak: false });
+  doc
+    .font("Helvetica-Bold")
+    .fontSize(10)
+    .fillColor(COLORS.brand)
+    .text(report.period.label, x + 155, y + 70, { lineBreak: false });
 
   doc
     .font("Helvetica")
     .fontSize(9.5)
-    .fillColor("#DDEBE2")
-    .text(`Laporan Bulanan - ${report.period.label}`, x + 18, y + 42)
-    .text(`${report.user.name} | ${report.user.email}`, x + 18, y + 56);
+    .fillColor(COLORS.muted)
+    .text(report.user.name, x + width - 210, y + 23, {
+      width: 182,
+      align: "right",
+      lineBreak: false,
+    })
+    .text(report.user.email, x + width - 210, y + 38, {
+      width: 182,
+      align: "right",
+      lineBreak: false,
+    });
 
   doc
     .font("Helvetica")
     .fontSize(8)
-    .fillColor("#C8D8CE")
-    .text(`Dicetak ${formatDateIndonesia(report.printedAt)}`, x + width - 172, y + 18, {
-      width: 144,
+    .fillColor(COLORS.muted)
+    .text(`Dicetak ${formatDateIndonesia(report.printedAt)}`, x + width - 210, y + 68, {
+      width: 182,
       align: "right",
+      lineBreak: false,
     });
 
-  doc.y = y + 92;
+  doc.y = y + 112;
 };
 
 const drawSectionTitle = (doc, title) => {

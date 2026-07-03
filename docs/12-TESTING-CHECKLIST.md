@@ -75,3 +75,8 @@
 - [ ] PDF report berguna.
 - [ ] Ada fitur yang terasa sangat kurang.
 - [ ] Ada fitur yang ternyata tidak perlu.
+
+## Go Public Readiness
+
+- [ ] Pastikan asset brand untuk header PDF (`frontend/public/brand/sadar-uang-icon.png` dan `frontend/public/brand/sadar-uang-text.png`) ikut tersedia di environment production.
+- [ ] Jika backend dan frontend dideploy terpisah, pindahkan atau copy asset brand PDF ke folder backend agar generator PDF tidak bergantung pada struktur folder frontend.
