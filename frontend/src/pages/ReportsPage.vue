@@ -6,10 +6,10 @@
         <p class="mt-2 text-sm text-muted">Lihat rangkuman uangmu dalam satu laporan yang rapi.</p>
       </div>
 
-      <form class="flex gap-2" @submit.prevent="loadReport">
+      <form class="grid w-full grid-cols-[1fr_96px] gap-2 sm:w-auto sm:grid-cols-[auto_96px_auto]" @submit.prevent="loadReport">
         <select
           v-model="period.month"
-          class="rounded-md border border-emerald-900/15 bg-white px-3 py-2 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/10"
+          class="w-full rounded-md border border-emerald-900/15 bg-white px-3 py-2 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/10"
         >
           <option v-for="month in months" :key="month.value" :value="month.value">
             {{ month.label }}
@@ -45,7 +45,7 @@
             <p class="mt-1 text-sm text-muted">{{ report.user.name }} · {{ report.user.email }}</p>
           </div>
           <button
-            class="rounded-md bg-brand px-4 py-3 text-sm font-semibold text-white hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-70"
+            class="w-full rounded-md bg-brand px-4 py-3 text-sm font-semibold text-white hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
             type="button"
             :disabled="downloading"
             @click="downloadPdf"
@@ -56,9 +56,9 @@
       </article>
 
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <article v-for="card in summaryCards" :key="card.label" class="rounded-lg border border-emerald-900/10 bg-white p-5 shadow-sm">
+        <article v-for="card in summaryCards" :key="card.label" class="min-w-0 rounded-lg border border-emerald-900/10 bg-white p-5 shadow-sm">
           <p class="text-sm text-muted">{{ card.label }}</p>
-          <p class="mt-3 text-2xl font-bold" :class="card.className">{{ card.value }}</p>
+          <p class="mt-3 break-words text-xl font-bold sm:text-2xl" :class="card.className">{{ card.value }}</p>
         </article>
       </div>
 

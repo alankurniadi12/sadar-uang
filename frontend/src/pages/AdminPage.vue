@@ -6,7 +6,7 @@
         <p class="mt-2 text-sm text-muted">Pantau user dan kesehatan penggunaan aplikasi.</p>
       </div>
       <button
-        class="rounded-md border border-emerald-900/15 px-4 py-2 text-sm font-semibold text-ink hover:border-brand hover:text-brand"
+        class="w-full rounded-md border border-emerald-900/15 px-4 py-2 text-sm font-semibold text-ink hover:border-brand hover:text-brand sm:w-auto"
         type="button"
         @click="loadAdminData"
       >
@@ -120,7 +120,7 @@
 
         <div class="flex flex-col gap-3 border-t border-emerald-900/10 px-4 py-3 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
           <p>Menampilkan {{ adminStore.users.length }} dari {{ adminStore.pagination.total }} user</p>
-          <div class="flex gap-2">
+          <div class="grid grid-cols-2 gap-2 sm:flex">
             <button
               class="rounded-md border border-emerald-900/15 px-3 py-2 font-semibold text-ink disabled:cursor-not-allowed disabled:opacity-50"
               type="button"

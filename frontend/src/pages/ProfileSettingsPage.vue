@@ -70,7 +70,7 @@
 
           <div class="mt-5 flex justify-end">
             <button
-              class="rounded-md bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-70"
+              class="w-full rounded-md bg-brand px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
               type="submit"
               :disabled="authStore.loading || !profileChanged"
             >
@@ -128,7 +128,7 @@
 
           <div class="mt-5 flex justify-end">
             <button
-              class="rounded-md bg-ink px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-950 disabled:cursor-not-allowed disabled:opacity-70"
+              class="w-full rounded-md bg-ink px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-950 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
               type="submit"
               :disabled="authStore.loading"
             >

@@ -7,7 +7,7 @@
       </div>
 
       <RouterLink
-        class="inline-flex items-center justify-center rounded-md bg-brand px-4 py-3 text-sm font-semibold text-white hover:bg-emerald-800"
+        class="inline-flex w-full items-center justify-center rounded-md bg-brand px-4 py-3 text-sm font-semibold text-white hover:bg-emerald-800 sm:w-auto"
         to="/transactions/new"
       >
         Tambah Transaksi
@@ -80,7 +80,7 @@
         />
       </label>
 
-      <div class="flex items-end gap-2">
+      <div class="flex flex-col gap-2 sm:flex-row sm:items-end">
         <button class="rounded-md bg-ink px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-950" type="submit">
           Terapkan
         </button>
@@ -145,11 +145,11 @@
       </div>
     </div>
 
-    <div v-if="transactionStore.pagination.totalPages > 1" class="flex items-center justify-between gap-3">
+    <div v-if="transactionStore.pagination.totalPages > 1" class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <p class="text-sm text-muted">
         Halaman {{ transactionStore.pagination.page }} dari {{ transactionStore.pagination.totalPages }}
       </p>
-      <div class="flex gap-2">
+      <div class="grid grid-cols-2 gap-2 sm:flex">
         <button
           class="rounded-md border border-emerald-900/15 px-4 py-2 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-50"
           type="button"
