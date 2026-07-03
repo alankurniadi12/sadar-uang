@@ -38,11 +38,9 @@
             Lupa password?
           </RouterLink>
         </span>
-        <input
+        <PasswordInput
           v-model="form.password"
-          class="mt-2 w-full rounded-md border border-emerald-900/15 px-3 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/10"
           placeholder="Masukkan password"
-          type="password"
           autocomplete="current-password"
           required
         />
@@ -75,6 +73,7 @@ import { reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import GoogleAuthButton from "@/components/GoogleAuthButton.vue";
+import PasswordInput from "@/components/PasswordInput.vue";
 import { useAuthStore } from "@/stores/authStore";
 import { useToastStore } from "@/stores/toastStore";
 

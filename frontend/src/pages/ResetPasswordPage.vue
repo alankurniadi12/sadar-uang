@@ -12,11 +12,9 @@
     <form class="mt-6 space-y-4" @submit.prevent="submitResetPassword">
       <label class="block">
         <span class="text-sm font-medium text-ink">Password baru</span>
-        <input
+        <PasswordInput
           v-model="form.password"
-          class="mt-2 w-full rounded-md border border-emerald-900/15 px-3 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/10"
           placeholder="Minimal 6 karakter"
-          type="password"
           autocomplete="new-password"
           required
           minlength="6"
@@ -25,11 +23,9 @@
 
       <label class="block">
         <span class="text-sm font-medium text-ink">Konfirmasi password</span>
-        <input
+        <PasswordInput
           v-model="form.passwordConfirmation"
-          class="mt-2 w-full rounded-md border border-emerald-900/15 px-3 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/10"
           placeholder="Ulangi password baru"
-          type="password"
           autocomplete="new-password"
           required
           minlength="6"
@@ -69,6 +65,7 @@
 import { computed, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
+import PasswordInput from "@/components/PasswordInput.vue";
 import { useAuthStore } from "@/stores/authStore";
 import { useToastStore } from "@/stores/toastStore";
 

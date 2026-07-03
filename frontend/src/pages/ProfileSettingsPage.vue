@@ -88,10 +88,8 @@
           <div class="grid gap-4 sm:grid-cols-2">
             <label v-if="hasPassword" class="block sm:col-span-2">
               <span class="text-sm font-medium text-ink">Password saat ini</span>
-              <input
+              <PasswordInput
                 v-model="passwordForm.currentPassword"
-                class="mt-2 w-full rounded-md border border-emerald-900/15 px-3 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/10"
-                type="password"
                 autocomplete="current-password"
                 required
               />
@@ -99,10 +97,8 @@
 
             <label class="block">
               <span class="text-sm font-medium text-ink">Password baru</span>
-              <input
+              <PasswordInput
                 v-model="passwordForm.newPassword"
-                class="mt-2 w-full rounded-md border border-emerald-900/15 px-3 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/10"
-                type="password"
                 autocomplete="new-password"
                 required
                 minlength="6"
@@ -111,10 +107,8 @@
 
             <label class="block">
               <span class="text-sm font-medium text-ink">Konfirmasi password baru</span>
-              <input
+              <PasswordInput
                 v-model="passwordForm.confirmPassword"
-                class="mt-2 w-full rounded-md border border-emerald-900/15 px-3 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/10"
-                type="password"
                 autocomplete="new-password"
                 required
                 minlength="6"
@@ -144,6 +138,7 @@
 <script setup>
 import { computed, onMounted, reactive, ref, watch } from "vue";
 
+import PasswordInput from "@/components/PasswordInput.vue";
 import { useAuthStore } from "@/stores/authStore";
 import { useToastStore } from "@/stores/toastStore";
 import { formatDate } from "@/utils/formatDate";
