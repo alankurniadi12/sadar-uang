@@ -2,9 +2,10 @@
   <main class="min-h-screen bg-white">
     <section class="mx-auto grid min-h-screen max-w-6xl content-center gap-10 px-4 py-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
       <div>
-        <p class="mb-4 text-sm font-semibold uppercase tracking-wide text-brand">
-          Sadar Uang
-        </p>
+        <div class="mb-4 inline-flex items-center gap-2">
+          <img class="h-11 w-auto shrink-0" src="/brand/sadar-uang-icon.png" alt="" />
+          <img class="h-8 w-auto" src="/brand/sadar-uang-text.png" alt="Sadar Uang" />
+        </div>
         <h1 class="max-w-2xl text-4xl font-bold leading-tight text-ink sm:text-5xl">
           Biar Uang Tidak Hilang Tanpa Jejak.
         </h1>
@@ -27,7 +28,7 @@
             <p class="text-sm text-muted">Ringkasan bulan ini</p>
             <p class="text-2xl font-bold text-ink">Rp1.500.000</p>
           </div>
-          <span class="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-brand">
+          <span class="rounded-full bg-coin/25 px-3 py-1 text-xs font-semibold text-brand">
             Positif
           </span>
         </div>

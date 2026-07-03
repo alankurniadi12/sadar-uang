@@ -4,11 +4,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: "#17201a",
-        muted: "#647067",
-        surface: "#f7faf7",
-        brand: "#1f7a4d",
-        danger: "#c2410c",
+        ink: "#0f2817",
+        muted: "#667263",
+        surface: "#f8fcf3",
+        brand: "#168b2f",
+        coin: "#f7c52d",
+        danger: "#e84d22",
       },
       fontFamily: {
         sans: [

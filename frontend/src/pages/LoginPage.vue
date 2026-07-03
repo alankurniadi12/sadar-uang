@@ -1,6 +1,9 @@
 <template>
   <section class="w-full max-w-md rounded-lg bg-white p-6 shadow-sm">
-    <RouterLink class="text-sm font-semibold text-brand" to="/">Sadar Uang</RouterLink>
+    <RouterLink class="inline-flex items-center gap-2" to="/">
+      <img class="h-8 w-auto shrink-0" src="/brand/sadar-uang-icon.png" alt="" />
+      <img class="h-5 w-auto" src="/brand/sadar-uang-text.png" alt="Sadar Uang" />
+    </RouterLink>
     <h1 class="mt-5 text-2xl font-bold text-ink">Masuk dan lihat kondisi uangmu hari ini.</h1>
     <p class="mt-2 text-sm leading-6 text-muted">
       Lanjutkan kebiasaan kecil yang bisa membuat uangmu lebih terarah.
