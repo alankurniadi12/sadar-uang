@@ -9,6 +9,7 @@ import ForgotPasswordPage from "@/pages/ForgotPasswordPage.vue";
 import LandingPage from "@/pages/LandingPage.vue";
 import LoginPage from "@/pages/LoginPage.vue";
 import NotFoundPage from "@/pages/NotFoundPage.vue";
+import ProfileSettingsPage from "@/pages/ProfileSettingsPage.vue";
 import RegisterPage from "@/pages/RegisterPage.vue";
 import ResetPasswordPage from "@/pages/ResetPasswordPage.vue";
 import ReportsPage from "@/pages/ReportsPage.vue";
@@ -78,6 +79,11 @@ const routes = [
         path: "reports",
         name: "reports",
         component: ReportsPage,
+      },
+      {
+        path: "settings",
+        name: "settings",
+        component: ProfileSettingsPage,
       },
       {
         path: "admin",

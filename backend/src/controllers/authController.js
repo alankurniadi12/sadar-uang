@@ -7,6 +7,8 @@ import {
   registerUser,
   requestPasswordReset,
   resetPassword,
+  updatePassword,
+  updateProfile,
 } from "../services/authService.js";
 
 export const register = asyncHandler(async (req, res) => {
@@ -44,4 +46,16 @@ export const me = asyncHandler(async (req, res) => {
   const user = await getCurrentUser(req.user.id);
 
   return sendSuccess(res, "Data user berhasil diambil.", { user });
+});
+
+export const updateMe = asyncHandler(async (req, res) => {
+  const user = await updateProfile(req.user.id, req.body);
+
+  return sendSuccess(res, "Profil berhasil diperbarui.", { user });
+});
+
+export const updateMyPassword = asyncHandler(async (req, res) => {
+  const user = await updatePassword(req.user.id, req.body);
+
+  return sendSuccess(res, "Password berhasil diperbarui.", { user });
 });

@@ -19,6 +19,7 @@ const toPublicUser = (user) => ({
   role: user.role,
   status: user.status,
   authProviders: user.authProviders || ["password"],
+  createdAt: user.createdAt,
 });
 
 const hashToken = (token) => crypto.createHash("sha256").update(token).digest("hex");
@@ -235,6 +236,62 @@ export const getCurrentUser = async (userId) => {
     error.statusCode = 404;
     throw error;
   }
+
+  return toPublicUser(user);
+};
+
+export const updateProfile = async (userId, { name }) => {
+  const user = await User.findById(userId);
+
+  if (!user) {
+    const error = new Error("User tidak ditemukan.");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  ensureActiveUser(user);
+
+  user.name = name;
+  await user.save();
+
+  return toPublicUser(user);
+};
+
+export const updatePassword = async (userId, { currentPassword, newPassword }) => {
+  const user = await User.findById(userId).select("+passwordHash");
+
+  if (!user) {
+    const error = new Error("User tidak ditemukan.");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  ensureActiveUser(user);
+
+  if (!user.passwordHash) {
+    user.passwordHash = await bcrypt.hash(newPassword, 10);
+    addAuthProvider(user, "password");
+    await user.save();
+
+    return toPublicUser(user);
+  }
+
+  if (!currentPassword) {
+    const error = new Error("Password saat ini wajib diisi.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const isPasswordValid = await bcrypt.compare(currentPassword, user.passwordHash);
+
+  if (!isPasswordValid) {
+    const error = new Error("Password saat ini belum sesuai.");
+    error.statusCode = 401;
+    throw error;
+  }
+
+  user.passwordHash = await bcrypt.hash(newPassword, 10);
+  await user.save();
 
   return toPublicUser(user);
 };

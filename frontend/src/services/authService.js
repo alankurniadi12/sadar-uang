@@ -19,4 +19,10 @@ export const authService = {
   me() {
     return api.get("/auth/me");
   },
+  updateProfile(payload) {
+    return api.patch("/auth/me", payload);
+  },
+  updatePassword(payload) {
+    return api.patch("/auth/me/password", payload);
+  },
 };

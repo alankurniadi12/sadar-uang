@@ -100,6 +100,32 @@ export const useAuthStore = defineStore("auth", {
         this.initialized = true;
       }
     },
+    async updateProfile(payload) {
+      this.loading = true;
+      this.error = null;
+      try {
+        const response = await authService.updateProfile(payload);
+        this.user = response.data.data.user;
+      } catch (error) {
+        this.error = error.response?.data?.message || "Profil gagal diperbarui.";
+        throw error;
+      } finally {
+        this.loading = false;
+      }
+    },
+    async updatePassword(payload) {
+      this.loading = true;
+      this.error = null;
+      try {
+        const response = await authService.updatePassword(payload);
+        this.user = response.data.data.user;
+      } catch (error) {
+        this.error = error.response?.data?.message || "Password gagal diperbarui.";
+        throw error;
+      } finally {
+        this.loading = false;
+      }
+    },
     logout() {
       this.user = null;
       this.token = null;

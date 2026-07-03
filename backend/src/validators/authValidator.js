@@ -83,3 +83,29 @@ export const validateResetPassword = (req, res, next) => {
 
   next();
 };
+
+export const validateUpdateProfile = (req, res, next) => {
+  const { name } = req.body;
+
+  if (!name || name.trim().length < 2) {
+    return sendValidationError(res, "Nama minimal 2 karakter.");
+  }
+
+  req.body.name = name.trim();
+
+  next();
+};
+
+export const validateUpdatePassword = (req, res, next) => {
+  const { currentPassword, newPassword } = req.body;
+
+  if (!newPassword || newPassword.length < 6) {
+    return sendValidationError(res, "Password baru minimal 6 karakter.");
+  }
+
+  if (currentPassword && currentPassword === newPassword) {
+    return sendValidationError(res, "Password baru harus berbeda dari password saat ini.");
+  }
+
+  next();
+};
