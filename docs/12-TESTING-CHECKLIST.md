@@ -102,3 +102,9 @@
 
 - [ ] Pastikan asset brand untuk header PDF (`frontend/public/brand/sadar-uang-icon.png` dan `frontend/public/brand/sadar-uang-text.png`) ikut tersedia di environment production.
 - [ ] Jika backend dan frontend dideploy terpisah, pindahkan atau copy asset brand PDF ke folder backend agar generator PDF tidak bergantung pada struktur folder frontend.
+- [ ] Jalankan checklist deployment di `docs/13-DEPLOYMENT-CHECKLIST.md`.
+- [ ] Pastikan `NODE_ENV=production` menolak start jika env wajib belum diisi.
+- [ ] Pastikan `JWT_SECRET` production bukan contoh dan minimal 32 karakter.
+- [ ] Pastikan `CLIENT_URL` production tidak mengarah ke localhost.
+- [ ] Pastikan `VITE_API_BASE_URL` production mengarah ke backend production.
+- [ ] Pastikan file `.env`, PDF laporan, dan screenshot data transaksi tidak ikut ter-commit.

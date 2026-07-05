@@ -17,6 +17,17 @@ Membantu pengguna lebih sadar terhadap kondisi keuangan pribadi melalui pencatat
 - Admin panel tersedia untuk memantau user dan status akun.
 - Belum fokus monetisasi, tetapi disiapkan sebagai produk personal branding.
 
+## Status Hosting
+
+Project sudah mendekati siap hosting, dengan syarat konfigurasi production diisi dengan benar:
+
+- Backend wajib punya `MONGO_URI`, `JWT_SECRET`, dan `CLIENT_URL` production.
+- `JWT_SECRET` production minimal 32 karakter dan tidak memakai contoh dari dokumentasi.
+- Frontend wajib memakai `VITE_API_BASE_URL` yang mengarah ke URL backend production.
+- File `.env` asli tidak boleh di-commit atau dibagikan.
+- Artefak generated seperti PDF/PNG laporan tidak boleh masuk repository.
+- SMTP Resend perlu dikonfigurasi jika fitur lupa password harus benar-benar mengirim email.
+
 ## Tech Stack Rekomendasi
 
 ### Frontend
@@ -62,6 +73,7 @@ Asset ini dipakai di UI dan header PDF. Saat deploy production, pastikan asset t
 10. `10-CODEX-INSTRUCTION.md` - Instruksi kerja untuk Codex
 11. `11-ENV-CONFIG.md` - Environment variable
 12. `12-TESTING-CHECKLIST.md` - Checklist testing
+13. `13-DEPLOYMENT-CHECKLIST.md` - Checklist hosting, security, dan go-live
 
 ## Prinsip Produk
 

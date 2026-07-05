@@ -258,3 +258,22 @@ Task:
 Output:
 
 - Keputusan lanjut ke versi publik atau revisi besar.
+
+## Phase 13 - Hosting Preparation
+
+Tujuan: Menyiapkan aplikasi agar aman di-hosting.
+
+Task:
+
+- Audit environment variable production.
+- Pastikan `.env` asli tidak masuk Git.
+- Keluarkan artefak generated seperti PDF/PNG laporan dari repository.
+- Jalankan build frontend.
+- Jalankan smoke test backend.
+- Konfigurasi CORS ke domain frontend production.
+- Konfigurasi SMTP jika forgot password dipakai.
+- Konfigurasi OAuth origin jika Google login dipakai.
+
+Output:
+
+- Aplikasi siap deploy dengan risiko kebocoran data lebih rendah.
