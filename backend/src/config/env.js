@@ -7,8 +7,12 @@ const isProduction = nodeEnv === "production";
 const jwtSecret = process.env.JWT_SECRET || "change_this_secret_key";
 const mongoUri = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/sadar_uang";
 const clientUrl = process.env.CLIENT_URL || "http://localhost:5173";
+const localClientUrls = isProduction
+  ? []
+  : ["http://localhost:5173", "http://127.0.0.1:5173"];
 const clientUrls = [
   clientUrl,
+  ...localClientUrls,
   ...String(process.env.CLIENT_URLS || "")
     .split(",")
     .map((url) => url.trim())
