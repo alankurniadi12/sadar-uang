@@ -4,6 +4,7 @@ Stack production yang dipakai:
 
 - Database: MongoDB Atlas
 - Backend: VPS Hosting
+- API Domain: `https://api.sadaruang.com`
 - Frontend: Vercel
 
 Gunakan checklist ini sebagai urutan kerja bertahap. Jangan lanjut ke tahap berikutnya kalau tahap sebelumnya belum lolos.
@@ -85,6 +86,7 @@ MONGO_URI=<mongodb-atlas-uri>
 JWT_SECRET=<minimum-32-random-characters>
 JWT_EXPIRES_IN=7d
 CLIENT_URL=https://your-frontend-domain.com
+CLIENT_URLS=https://www.your-frontend-domain.com
 ```
 
 Backend env opsional tapi direkomendasikan:
@@ -103,6 +105,13 @@ Output tahap ini:
 - Backend production hidup di HTTPS.
 - `/api/health` berhasil.
 - Backend berhasil konek ke MongoDB Atlas.
+
+Checklist khusus `api.sadaruang.com`:
+
+- [ ] Cloudflare DNS `api` sudah `A -> IP_VPS` dan mode DNS Only saat issuing SSL.
+- [ ] Nginx proxy mengarah ke `http://127.0.0.1:5000` atau port backend yang benar.
+- [ ] `curl https://api.sadaruang.com/api/health` berhasil.
+- [ ] Setelah SSL aktif, Cloudflare boleh tetap DNS Only atau diubah proxied jika SSL mode diset Full/Full strict.
 
 ## Tahap 4 - Deploy Frontend ke Vercel
 
@@ -135,8 +144,9 @@ Output tahap ini:
 ## Tahap 5 - Domain, CORS, dan Integrasi
 
 - [ ] Tentukan domain frontend, misalnya `https://sadaruang.com`.
-- [ ] Tentukan domain API, misalnya `https://api.sadaruang.com`.
+- [x] Tentukan domain API: `https://api.sadaruang.com`.
 - [ ] Update `CLIENT_URL` backend agar sama persis dengan URL frontend production.
+- [ ] Jika frontend memakai lebih dari satu origin aktif, isi `CLIENT_URLS` dengan origin tambahan, dipisahkan koma.
 - [ ] Redeploy/restart backend setelah `CLIENT_URL` berubah.
 - [ ] Update `VITE_API_BASE_URL` frontend jika domain API berubah.
 - [ ] Redeploy frontend setelah env frontend berubah.
@@ -147,6 +157,17 @@ Output tahap ini:
 
 - CORS tidak error.
 - Google login dan reset password siap dites di production.
+
+Nilai production yang disarankan:
+
+```env
+# Backend VPS
+CLIENT_URL=https://sadaruang.com
+CLIENT_URLS=https://www.sadaruang.com
+
+# Frontend Vercel
+VITE_API_BASE_URL=https://api.sadaruang.com/api
+```
 
 ## Tahap 5.5 - Resend Email Reset
 
@@ -169,6 +190,7 @@ MAIL_FROM="Sadar Uang <no-reply@your-domain.com>"
 - [ ] Request reset password dari frontend production.
 - [ ] Pastikan email masuk ke inbox.
 - [ ] Pastikan link reset mengarah ke domain frontend production.
+- [ ] Pastikan email tidak berisi link localhost atau domain preview yang bukan domain utama.
 
 Output tahap ini:
 

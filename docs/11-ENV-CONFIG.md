@@ -9,6 +9,7 @@ MONGO_URI=mongodb://127.0.0.1:27017/sadar_uang
 JWT_SECRET=replace_with_minimum_32_random_characters
 JWT_EXPIRES_IN=7d
 CLIENT_URL=http://localhost:5173
+CLIENT_URLS=
 MAIL_FROM="Sadar Uang <no-reply@your-domain.com>"
 SMTP_HOST=smtp.resend.com
 SMTP_PORT=587
@@ -31,7 +32,8 @@ VITE_GOOGLE_CLIENT_ID=
 - Jangan tulis credential asli di dokumentasi, issue tracker, screenshot, atau chat publik.
 - `JWT_SECRET` wajib diganti saat production, minimal 32 karakter acak.
 - `MONGO_URI` production wajib memakai database production, bukan localhost.
-- `CLIENT_URL` digunakan untuk CORS dan wajib sama dengan URL frontend production.
+- `CLIENT_URL` digunakan untuk link reset password dan origin utama CORS; wajib sama dengan URL frontend production.
+- `CLIENT_URLS` opsional untuk tambahan origin CORS, pisahkan dengan koma, misalnya domain `www` atau preview Vercel yang masih dipakai.
 - SMTP wajib dikonfigurasi di production agar forgot password benar-benar mengirim email.
 - Untuk Resend SMTP, gunakan `SMTP_HOST=smtp.resend.com`, `SMTP_USER=resend`, dan `SMTP_PASS` berisi Resend API key.
 - `MAIL_FROM` wajib memakai domain yang sudah diverifikasi di Resend untuk production.
@@ -57,6 +59,7 @@ MONGO_URI=<production-mongodb-uri>
 JWT_SECRET=<minimum-32-random-characters>
 JWT_EXPIRES_IN=7d
 CLIENT_URL=https://your-frontend-domain.com
+CLIENT_URLS=https://www.your-frontend-domain.com
 MAIL_FROM="Sadar Uang <no-reply@your-domain.com>"
 SMTP_HOST=smtp.resend.com
 SMTP_PORT=587
@@ -81,7 +84,34 @@ Checklist Resend untuk reset password:
 Frontend:
 
 ```env
-VITE_API_BASE_URL=https://your-backend-domain.com/api
+VITE_API_BASE_URL=https://api.sadaruang.com/api
+VITE_GOOGLE_CLIENT_ID=<google-oauth-client-id>
+```
+
+Contoh production Sadar Uang:
+
+Backend VPS:
+
+```env
+NODE_ENV=production
+PORT=5000
+MONGO_URI=<mongodb-atlas-uri>
+JWT_SECRET=<minimum-32-random-characters>
+JWT_EXPIRES_IN=7d
+CLIENT_URL=https://sadaruang.com
+CLIENT_URLS=https://www.sadaruang.com
+SMTP_HOST=smtp.resend.com
+SMTP_PORT=587
+SMTP_USER=resend
+SMTP_PASS=<resend-api-key>
+MAIL_FROM="Sadar Uang <no-reply@sadaruang.com>"
+GOOGLE_CLIENT_ID=<google-oauth-client-id>
+```
+
+Frontend Vercel:
+
+```env
+VITE_API_BASE_URL=https://api.sadaruang.com/api
 VITE_GOOGLE_CLIENT_ID=<google-oauth-client-id>
 ```
 
@@ -92,4 +122,5 @@ Saat `NODE_ENV=production`, backend akan gagal start jika:
 - `MONGO_URI`, `JWT_SECRET`, atau `CLIENT_URL` kosong.
 - `JWT_SECRET` masih memakai contoh atau kurang dari 32 karakter.
 - `CLIENT_URL` masih mengarah ke localhost.
+- `CLIENT_URLS` berisi origin localhost.
 - `MONGO_URI` masih mengarah ke localhost.

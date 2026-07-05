@@ -7,6 +7,13 @@ const isProduction = nodeEnv === "production";
 const jwtSecret = process.env.JWT_SECRET || "change_this_secret_key";
 const mongoUri = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/sadar_uang";
 const clientUrl = process.env.CLIENT_URL || "http://localhost:5173";
+const clientUrls = [
+  clientUrl,
+  ...String(process.env.CLIENT_URLS || "")
+    .split(",")
+    .map((url) => url.trim())
+    .filter(Boolean),
+].filter((url, index, urls) => urls.indexOf(url) === index);
 
 if (isProduction) {
   const missingVars = [];
@@ -27,6 +34,10 @@ if (isProduction) {
     throw new Error("CLIENT_URL must use the deployed frontend URL in production.");
   }
 
+  if (clientUrls.some((url) => url.includes("localhost") || url.includes("127.0.0.1"))) {
+    throw new Error("CLIENT_URLS must only contain deployed frontend URLs in production.");
+  }
+
   if (mongoUri.includes("127.0.0.1") || mongoUri.includes("localhost")) {
     throw new Error("MONGO_URI must use a production database in production.");
   }
@@ -39,6 +50,7 @@ export const env = {
   jwtSecret,
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || "7d",
   clientUrl,
+  clientUrls,
   googleClientId: process.env.GOOGLE_CLIENT_ID || "",
   smtpHost: process.env.SMTP_HOST || "",
   smtpPort: Number(process.env.SMTP_PORT || 587),

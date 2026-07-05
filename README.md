@@ -44,4 +44,5 @@ Dokumen penting sebelum hosting:
 - Jangan commit PDF/PNG laporan generated karena bisa berisi data transaksi.
 - Gunakan `JWT_SECRET` production minimal 32 karakter acak.
 - Pastikan `CLIENT_URL` backend sama dengan domain frontend production.
+- Gunakan `CLIENT_URLS` hanya untuk tambahan origin frontend yang memang aktif.
 - Pastikan `VITE_API_BASE_URL` frontend mengarah ke backend production.
