@@ -47,7 +47,6 @@
         <article v-for="card in summaryCards" :key="card.label" class="min-w-0 rounded-lg border border-emerald-900/10 bg-white p-5 shadow-sm">
           <p class="text-sm text-muted">{{ card.label }}</p>
           <p class="mt-3 break-words text-xl font-bold sm:text-2xl" :class="card.className">{{ card.value }}</p>
-          <p v-if="card.description" class="mt-2 text-xs text-muted">{{ card.description }}</p>
         </article>
       </div>
 
@@ -205,7 +204,6 @@ const summaryCards = computed(() => {
       label: "Investasi",
       value: formatCurrency(summary.investmentTotal ?? 0),
       className: "text-blue-600",
-      description: "Alokasi investasi periode ini, termasuk dalam Uang Keluar.",
     },
     {
       label: "Sisa Uang",
