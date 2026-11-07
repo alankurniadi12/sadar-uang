@@ -36,10 +36,15 @@ export const getDashboardSummary = async (userId, query) => {
   });
   const incomeTotal = sumByType(transactions, "income");
   const expenseTotal = sumByType(transactions, "expense");
+  const investmentTotal = sumByType(
+    transactions.filter((transaction) => transaction.category === "Investasi"),
+    "expense",
+  );
 
   return {
     incomeTotal,
     expenseTotal,
+    investmentTotal,
     balance: incomeTotal - expenseTotal,
     transactionCount: transactions.length,
   };

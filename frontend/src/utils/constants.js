@@ -26,5 +26,6 @@ export const EXPENSE_CATEGORIES = [
   "Cicilan",
   "Bisnis",
   "Iklan",
+  "Investasi",
   "Lainnya",
 ];
